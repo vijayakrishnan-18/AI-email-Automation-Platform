@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { formatDistanceToNow } from 'date-fns';
 import { RefreshCw, LogOut, User as UserIcon, Bell, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import ThemeToggle from '@/components/ui/theme-toggle';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
@@ -123,6 +124,8 @@ export function Header({
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
+
+        <ThemeToggle />
 
         {/* User menu */}
         <DropdownMenu>
