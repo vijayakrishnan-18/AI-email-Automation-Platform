@@ -1,33 +1,34 @@
-import OpenAI from 'openai';
+import Groq from 'groq-sdk';
 
-let openaiClient: OpenAI | null = null;
+let groqClient: Groq | null = null;
 
-export function getOpenAIClient(): OpenAI {
-  if (!openaiClient) {
-    const apiKey = process.env.OPENAI_API_KEY;
+export function getOpenAIClient(): Groq {
+  if (!groqClient) {
+    const apiKey = process.env.GROQ_API_KEY;
     if (!apiKey) {
-      throw new Error('OPENAI_API_KEY environment variable is not set');
+      throw new Error('GROQ_API_KEY environment variable is not set');
     }
-    openaiClient = new OpenAI({ apiKey });
+    groqClient = new Groq({ apiKey });
   }
-  return openaiClient;
+  return groqClient;
 }
 
 // Model configurations for different tasks
+// All tasks use llama-3.3-70b-versatile on Groq
 export const AI_MODELS = {
-  // Fast, cheap model for classification
-  classification: 'gpt-4o-mini',
-  // More capable model for reply generation
-  generation: 'gpt-4o',
-  // Embedding model
-  embedding: 'text-embedding-3-small',
+  // Fast model for classification
+  classification: 'llama-3.3-70b-versatile',
+  // Capable model for reply generation
+  generation: 'llama-3.3-70b-versatile',
+  // Groq does not offer embeddings; this key is kept for type compatibility
+  embedding: 'not-supported',
 } as const;
 
 // Temperature settings for deterministic behavior
 export const TEMPERATURES = {
   classification: 0.1, // Very deterministic
-  decision: 0.1, // Very deterministic
-  generation: 0.7, // More creative for natural responses
+  decision: 0.1,       // Very deterministic
+  generation: 0.7,     // More creative for natural responses
 } as const;
 
 export interface TokenUsage {
@@ -36,19 +37,20 @@ export interface TokenUsage {
   total_tokens: number;
 }
 
-export async function createEmbedding(text: string): Promise<number[]> {
-  const client = getOpenAIClient();
-
-  const response = await client.embeddings.create({
-    model: AI_MODELS.embedding,
-    input: text,
-  });
-
-  return response.data[0].embedding;
+/**
+ * NOTE: Groq does not provide an embeddings API.
+ * This function is kept for interface compatibility but will throw if called.
+ * It was never used in the codebase previously.
+ */
+export async function createEmbedding(_text: string): Promise<number[]> {
+  throw new Error(
+    'Embeddings are not supported by the Groq API. ' +
+    'If you need embeddings, consider using a dedicated embeddings service.'
+  );
 }
 
 export async function createChatCompletion(
-  messages: OpenAI.Chat.ChatCompletionMessageParam[],
+  messages: Groq.Chat.ChatCompletionMessageParam[],
   options: {
     model?: string;
     temperature?: number;

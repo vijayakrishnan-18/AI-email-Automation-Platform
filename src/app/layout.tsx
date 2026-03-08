@@ -6,7 +6,7 @@ import { Toaster } from '@/components/ui/toaster';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'AI Email OS - Intelligent Email Management',
+  title: 'AI Email Automation Platform',
   description:
     'AI-powered email management system with intelligent classification, automated replies, and human-in-the-loop approval workflows.',
 };

@@ -110,7 +110,7 @@ ${input.threadContext ? `THREAD CONTEXT:\n${input.threadContext}` : ''}`;
 
     if (isQuotaError) {
       // Re-throw quota errors so they can be handled at a higher level
-      throw new Error(`OpenAI quota exceeded: ${errorMessage}`);
+      throw new Error(`Groq API quota exceeded: ${errorMessage}`);
     }
 
     // For other errors, return a safe fallback

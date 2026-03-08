@@ -38,59 +38,59 @@ export default function LandingPage() {
   const features = [
     {
       icon: Brain,
-      title: 'AI-Powered Classification',
-      description: 'Automatically categorize emails by type, urgency, and sentiment. Never miss important messages again.',
+      title: 'Intelligent Email Classification',
+      description: 'AI automatically categorizes emails based on type, priority, and sentiment, ensuring that important messages are always highlighted.',
     },
     {
       icon: Sparkles,
-      title: 'Smart Auto-Replies',
-      description: 'Let AI draft contextual responses that match your tone. Review and send with one click.',
+      title: 'AI-Generated Smart Replies',
+      description: 'Generate context-aware email responses tailored to your communication style. Review and send them instantly with a single click.',
     },
     {
       icon: Shield,
-      title: 'Approval Workflows',
-      description: 'Set rules for sensitive emails. AI drafts responses, you maintain full control before sending.',
+      title: 'Controlled Approval Workflows',
+      description: 'Define rules for sensitive communications. AI drafts responses while you retain full approval authority before sending.',
     },
     {
       icon: Zap,
-      title: 'Lightning Fast',
-      description: 'Process hundreds of emails in seconds. Reduce inbox management time by up to 80%.',
+      title: 'High-Speed Email Processing',
+      description: 'Analyze and manage hundreds of emails within seconds, reducing inbox management time by up to 80%.',
     },
     {
       icon: Filter,
-      title: 'Custom AI Rules',
-      description: 'Create personalized rules based on sender, category, or keywords. Your inbox, your rules.',
+      title: 'Customizable AI Rules',
+      description: 'Create personalized automation rules based on sender, category, keywords, or priority to keep your inbox organized.',
     },
     {
       icon: Lock,
-      title: 'Enterprise Security',
-      description: 'Bank-grade encryption, OAuth 2.0, and no email data stored on our servers.',
+      title: 'Enterprise-Grade Security',
+      description: 'Your data is protected with bank-level encryption, OAuth 2.0 authentication, and strict policies ensuring no email data is stored on our servers.',
     },
   ];
 
   const howItWorks = [
     {
       step: 1,
-      title: 'Connect Your Gmail',
-      description: 'Secure OAuth connection - we never see your password. Takes less than 30 seconds.',
+      title: 'Securely Connect Your Gmail',
+      description: 'Authenticate your Gmail account through a secure OAuth connection. No passwords are stored or accessed.',
       icon: Mail,
     },
     {
       step: 2,
       title: 'AI Analyzes Your Inbox',
-      description: 'Our AI classifies emails by category, urgency, and determines the best response strategy.',
+      description: 'The AI evaluates incoming emails, categorizing them by topic, urgency, and determining the most appropriate response strategy.',
       icon: Brain,
     },
     {
       step: 3,
-      title: 'Set Your Preferences',
-      description: 'Configure auto-reply rules, approval workflows, and customize AI behavior to your needs.',
+      title: 'Customize Your Preferences',
+      description: 'Configure automation rules, approval workflows, and AI behavior to match your communication preferences.',
       icon: Settings,
     },
     {
       step: 4,
-      title: 'Relax & Stay Productive',
-      description: 'AI handles routine emails while you focus on what matters. Review important items at your pace.',
+      title: 'Stay Focused and Productive',
+      description: 'Routine emails are handled automatically while you concentrate on high-priority tasks and review important messages when needed.',
       icon: Sparkles,
     },
   ];
@@ -149,16 +149,16 @@ export default function LandingPage() {
 
   const testimonials = [
     {
-      name: 'Sarah Chen',
+      name: 'Angelo Seby',
       role: 'Startup Founder',
       company: 'TechFlow',
       image: null,
-      content: 'AI Email OS cut my email time from 3 hours to 30 minutes daily. The auto-classification alone is worth it.',
+      content: 'AI Email Automation platforms cut my email time from 3 hours to 30 minutes daily. The auto-classification alone is worth it.',
       rating: 5,
     },
     {
-      name: 'Michael Roberts',
-      role: 'Sales Director',
+      name: 'Anaswara KU',
+      role: 'CEO',
       company: 'GrowthCo',
       image: null,
       content: 'The approval workflow for legal emails gives me peace of mind. AI drafts are spot-on 90% of the time.',

@@ -68,7 +68,7 @@ export async function processIncomingEmail(
       safe_to_reply: classificationResult.safe_to_reply,
       confidence: classificationResult.confidence,
       reasoning: classificationResult.reasoning,
-      model_used: 'gpt-4o-mini',
+      model_used: 'llama-3.3-70b-versatile',
       tokens_used: classTokens,
     })
     .select()
@@ -226,7 +226,7 @@ export async function processIncomingEmail(
       reasoning: decisionResult.reasoning,
       confidence: decisionResult.confidence,
       rule_id: decisionResult.matched_rule_id,
-      model_used: decisionResult.matched_rule_id ? 'rule-based' : 'gpt-4o-mini',
+      model_used: decisionResult.matched_rule_id ? 'rule-based' : 'llama-3.3-70b-versatile',
     })
     .select()
     .single();
@@ -248,7 +248,7 @@ export async function processIncomingEmail(
       body_text: replyResult.body_text,
       body_html: replyResult.body_html,
       tone: replyResult.tone,
-      model_used: 'gpt-4o',
+      model_used: 'llama-3.3-70b-versatile',
       tokens_used: replyTokens,
     })
     .select()

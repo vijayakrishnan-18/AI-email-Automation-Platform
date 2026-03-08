@@ -106,7 +106,7 @@ Generate a professional reply that addresses all the key requests.`;
                          errorMessage.includes('429');
 
     if (isQuotaError) {
-      throw new Error(`OpenAI quota exceeded: ${errorMessage}`);
+      throw new Error(`Groq API quota exceeded: ${errorMessage}`);
     }
 
     // Return fallback if API fails
@@ -222,7 +222,7 @@ Generate an improved reply that addresses the feedback while maintaining profess
                          errorMessage.includes('429');
 
     if (isQuotaError) {
-      throw new Error(`OpenAI quota exceeded: ${errorMessage}`);
+      throw new Error(`Groq API quota exceeded: ${errorMessage}`);
     }
 
     // Return previous draft if API fails

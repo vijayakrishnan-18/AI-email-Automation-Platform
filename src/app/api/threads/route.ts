@@ -44,22 +44,84 @@ export async function GET(request: NextRequest) {
 
     const accountIds = accounts.map((a) => a.id);
 
-    // Build simple query without joins
+    // Apply category filter: ai_classifications links to email_id, not thread_id
+    // So we join: ai_classifications.email_id → emails.id → emails.thread_id
+    let categoryThreadIds: string[] | null = null;
+    if (query.category) {
+      // Get all email IDs classified under this category
+      const { data: classifiedEmails } = await supabase
+        .from('ai_classifications')
+        .select('email_id')
+        .eq('category', query.category);
+
+      if (!classifiedEmails || classifiedEmails.length === 0) {
+        return successResponse({
+          threads: [] as any[],
+          total: 0,
+          page: query.page,
+          limit: query.limit,
+          totalPages: 0,
+          message: `No emails classified as "${query.category}" found.`,
+        });
+      }
+
+      const emailIds = classifiedEmails.map((c) => c.email_id);
+
+      // Resolve email_id → thread_id via emails table
+      const { data: emailRecords } = await supabase
+        .from('emails')
+        .select('thread_id')
+        .in('id', emailIds);
+
+      categoryThreadIds = Array.from(
+        new Set(emailRecords?.map((e) => e.thread_id) || [])
+      );
+
+      if (categoryThreadIds.length === 0) {
+        return successResponse({
+          threads: [] as any[],
+          total: 0,
+          page: query.page,
+          limit: query.limit,
+          totalPages: 0,
+          message: `No emails classified as "${query.category}" found.`,
+        });
+      }
+    }
+
+    // Build main query
     let dbQuery = supabase
       .from('email_threads')
       .select('*', { count: 'exact' })
       .in('email_account_id', accountIds)
       .order('last_message_at', { ascending: false });
 
-    // Apply filters
+    // Apply status filter
     if (query.status) {
       dbQuery = dbQuery.eq('status', query.status);
     }
 
+    // Apply search filter
     if (query.search) {
       dbQuery = dbQuery.or(
         `subject.ilike.%${query.search}%,snippet.ilike.%${query.search}%`
       );
+    }
+
+    // Apply category filter — restrict to threads classified with this category
+    if (categoryThreadIds !== null) {
+      if (categoryThreadIds.length === 0) {
+        // No threads matched — return empty immediately
+        return successResponse({
+          threads: [] as any[],
+          total: 0,
+          page: query.page,
+          limit: query.limit,
+          totalPages: 0,
+          message: `No emails classified as "${query.category}" found.`,
+        });
+      }
+      dbQuery = dbQuery.in('id', categoryThreadIds);
     }
 
     // Pagination

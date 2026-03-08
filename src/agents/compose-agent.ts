@@ -101,7 +101,7 @@ Generate a complete, professional email ready to send.`;
                          errorMessage.includes('429');
 
     if (isQuotaError) {
-      throw new Error(`OpenAI quota exceeded: ${errorMessage}`);
+      throw new Error(`Groq API quota exceeded: ${errorMessage}`);
     }
 
     console.error('Compose API error:', error);

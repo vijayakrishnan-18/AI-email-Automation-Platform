@@ -124,7 +124,7 @@ Provide the context summary in this exact JSON format:
                          errorMessage.includes('429');
 
     if (isQuotaError) {
-      throw new Error(`OpenAI quota exceeded: ${errorMessage}`);
+      throw new Error(`Groq API quota exceeded: ${errorMessage}`);
     }
 
     // Return basic context if API fails

@@ -84,38 +84,32 @@ export async function POST(request: NextRequest) {
 
           let dbThread;
 
-          if (!existingThread) {
-            // Create new thread
-            const { data: newThread, error: threadError } = await serviceClient
-              .from('email_threads')
-              .insert({
+          // Upsert: insert if new, update if already exists (avoids duplicate key race condition)
+          const { data: upsertedThread, error: threadError } = await serviceClient
+            .from('email_threads')
+            .upsert(
+              {
                 email_account_id: account.id,
                 ...threadData,
-              })
-              .select()
-              .single();
-
-            if (threadError) {
-              console.error('Failed to create thread:', threadError);
-              continue;
-            }
-
-            dbThread = newThread;
-            newThreads++;
-          } else {
-            // Update existing thread
-            const { data: updatedThread } = await serviceClient
-              .from('email_threads')
-              .update({
-                ...threadData,
                 updated_at: new Date().toISOString(),
-              })
-              .eq('id', existingThread.id)
-              .select()
-              .single();
+              },
+              {
+                onConflict: 'email_account_id,gmail_thread_id',
+                ignoreDuplicates: false, // update on conflict
+              }
+            )
+            .select()
+            .single();
 
-            dbThread = updatedThread || existingThread;
+          if (threadError) {
+            console.error('Failed to upsert thread:', threadError);
+            continue;
           }
+
+          // Count as new only if it didn't exist before
+          if (!existingThread) newThreads++;
+          dbThread = upsertedThread;
+
 
           // Process messages in thread
           const messages = fullThread.messages || [];
@@ -183,7 +177,7 @@ export async function POST(request: NextRequest) {
                                        errorMessage.includes('429');
 
                   if (isQuotaError) {
-                    console.warn('OpenAI quota/rate limit reached - skipping AI processing for remaining emails');
+                    console.warn('Groq API quota/rate limit reached - skipping AI processing for remaining emails');
                     // Continue syncing emails without AI processing
                     // Don't try to process more emails with AI in this sync
                     break;
