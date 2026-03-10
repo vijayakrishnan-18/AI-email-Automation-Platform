@@ -246,29 +246,29 @@ export class GmailClient {
     await this.ensureValidToken();
 
     const profile = await this.getProfile();
-    const email = [
+    const headers = [
       `From: ${profile.emailAddress}`,
       `To: ${to}`,
       `Subject: ${subject}`,
-      threadId ? `In-Reply-To: ${threadId}` : '',
-      threadId ? `References: ${threadId}` : '',
+      threadId ? `In-Reply-To: ${threadId}` : null,
+      threadId ? `References: ${threadId}` : null,
       'Content-Type: text/plain; charset=utf-8',
-      '',
-      body,
     ]
       .filter(Boolean)
       .join('\r\n');
 
-    const encodedEmail = Buffer.from(email)
+    const email = `${headers}\r\n\r\n${body}`;
+
+    // Standard Base64Url encoding for Gmail API
+    const encodedMessage = Buffer.from(email)
       .toString('base64')
       .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+      .replace(/\//g, '_');
 
     const { data } = await this.gmail.users.messages.send({
       userId: 'me',
       requestBody: {
-        raw: encodedEmail,
+        raw: encodedMessage,
         threadId,
       },
     });
@@ -280,30 +280,30 @@ export class GmailClient {
     await this.ensureValidToken();
 
     const profile = await this.getProfile();
-    const email = [
+    const headers = [
       `From: ${profile.emailAddress}`,
       `To: ${to}`,
       `Subject: ${subject}`,
-      threadId ? `In-Reply-To: ${threadId}` : '',
-      threadId ? `References: ${threadId}` : '',
+      threadId ? `In-Reply-To: ${threadId}` : null,
+      threadId ? `References: ${threadId}` : null,
       'Content-Type: text/plain; charset=utf-8',
-      '',
-      body,
     ]
       .filter(Boolean)
       .join('\r\n');
 
-    const encodedEmail = Buffer.from(email)
+    const email = `${headers}\r\n\r\n${body}`;
+
+    // Standard Base64Url encoding for Gmail API
+    const encodedMessage = Buffer.from(email)
       .toString('base64')
       .replace(/\+/g, '-')
-      .replace(/\//g, '_')
-      .replace(/=+$/, '');
+      .replace(/\//g, '_');
 
     const { data } = await this.gmail.users.drafts.create({
       userId: 'me',
       requestBody: {
         message: {
-          raw: encodedEmail,
+          raw: encodedMessage,
           threadId,
         },
       },

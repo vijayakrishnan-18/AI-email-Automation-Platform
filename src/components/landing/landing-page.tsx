@@ -8,8 +8,6 @@ import {
   Shield,
   Zap,
   Brain,
-  Clock,
-  CheckCircle,
   ArrowRight,
   Star,
   Menu,
@@ -17,54 +15,53 @@ import {
   ChevronDown,
   MessageSquare,
   Filter,
-  Bell,
-  BarChart3,
   Lock,
   Globe,
-  Users,
   Inbox,
   Send,
   FileEdit,
   Settings,
+  Moon,
+  Sun,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
 export default function LandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   const features = [
     {
       icon: Brain,
-      title: 'Intelligent Email Classification',
-      description: 'AI automatically categorizes emails based on type, priority, and sentiment, ensuring that important messages are always highlighted.',
+      title: 'Automated Inbox Triage',
+      description: 'Leveraging machine learning to prioritize correspondence based on intent, urgency, and sentiment for streamlined triage.',
     },
     {
       icon: Sparkles,
-      title: 'AI-Generated Smart Replies',
-      description: 'Generate context-aware email responses tailored to your communication style. Review and send them instantly with a single click.',
+      title: 'Contextual Draft Generation',
+      description: 'AI-driven drafting that mirrors your unique communication style, allowing for rapid review and one-click dispatch.',
     },
     {
       icon: Shield,
-      title: 'Controlled Approval Workflows',
-      description: 'Define rules for sensitive communications. AI drafts responses while you retain full approval authority before sending.',
+      title: 'Regulated Response Protocols',
+      description: 'Establish governance for sensitive communications, ensuring AI-generated drafts meet your standards before final approval.',
     },
     {
       icon: Zap,
-      title: 'High-Speed Email Processing',
-      description: 'Analyze and manage hundreds of emails within seconds, reducing inbox management time by up to 80%.',
+      title: 'High-Volume Throughput',
+      description: 'Optimize operational efficiency by processing vast email volumes instantly, reclaiming up to 80% of administrative time.',
     },
     {
       icon: Filter,
-      title: 'Customizable AI Rules',
-      description: 'Create personalized automation rules based on sender, category, keywords, or priority to keep your inbox organized.',
+      title: 'Granular Logic Configuration',
+      description: 'Define bespoke automation parameters based on specific senders, classifications, or keywords to suit your workflow.',
     },
     {
       icon: Lock,
-      title: 'Enterprise-Grade Security',
-      description: 'Your data is protected with bank-level encryption, OAuth 2.0 authentication, and strict policies ensuring no email data is stored on our servers.',
+      title: 'Tier-1 Data Protection',
+      description: 'Built with industry-standard encryption and OAuth 2.0; we operate on a zero-retention policy for your raw email data.',
     },
   ];
 
@@ -95,64 +92,12 @@ export default function LandingPage() {
     },
   ];
 
-  const pricing = [
-    {
-      name: 'Starter',
-      price: '$0',
-      period: 'forever',
-      description: 'Perfect for trying out AI email management',
-      features: [
-        'Up to 100 emails/month',
-        'Basic AI classification',
-        'Manual replies only',
-        'Email support',
-      ],
-      cta: 'Get Started Free',
-      popular: false,
-    },
-    {
-      name: 'Pro',
-      price: '$19',
-      period: 'per month',
-      description: 'For professionals who value their time',
-      features: [
-        'Unlimited emails',
-        'Advanced AI classification',
-        'Smart auto-replies',
-        'Custom AI rules',
-        'Approval workflows',
-        'Priority support',
-        'Analytics dashboard',
-      ],
-      cta: 'Start Free Trial',
-      popular: true,
-    },
-    {
-      name: 'Enterprise',
-      price: 'Custom',
-      period: 'contact us',
-      description: 'For teams and organizations',
-      features: [
-        'Everything in Pro',
-        'Multiple email accounts',
-        'Team collaboration',
-        'Custom AI training',
-        'API access',
-        'Dedicated support',
-        'SLA guarantee',
-        'SSO & SAML',
-      ],
-      cta: 'Contact Sales',
-      popular: false,
-    },
-  ];
 
   const testimonials = [
     {
       name: 'Angelo Seby',
       role: 'Startup Founder',
       company: 'TechFlow',
-      image: null,
       content: 'AI Email Automation platforms cut my email time from 3 hours to 30 minutes daily. The auto-classification alone is worth it.',
       rating: 5,
     },
@@ -160,7 +105,6 @@ export default function LandingPage() {
       name: 'Anaswara KU',
       role: 'CEO',
       company: 'GrowthCo',
-      image: null,
       content: 'The approval workflow for legal emails gives me peace of mind. AI drafts are spot-on 90% of the time.',
       rating: 5,
     },
@@ -168,7 +112,6 @@ export default function LandingPage() {
       name: 'Emily Watson',
       role: 'Product Manager',
       company: 'InnovateLabs',
-      image: null,
       content: 'Finally, an AI email tool that actually understands context. My team productivity increased by 40%.',
       rating: 5,
     },
@@ -177,7 +120,7 @@ export default function LandingPage() {
   const faqs = [
     {
       question: 'Is my email data safe?',
-      answer: 'Absolutely. We use OAuth 2.0 for Gmail authentication - we never see or store your password. Email content is processed in real-time and not stored on our servers. All data transmission uses bank-grade encryption.',
+      answer: 'Absolutely. We use OAuth 2.0 for Gmail authentication — we never see or store your password. Email content is processed in real-time and not stored on our servers. All data transmission uses bank-grade encryption.',
     },
     {
       question: 'Can the AI send emails without my approval?',
@@ -193,7 +136,7 @@ export default function LandingPage() {
     },
     {
       question: 'Can I try it before committing?',
-      answer: 'Yes! Our Starter plan is completely free and includes 100 emails per month. The Pro plan also has a 14-day free trial with full features.',
+      answer: 'Yes! Our Individual plan is completely free and includes 100 emails per month. The Professional plan also has a 14-day free trial with full features.',
     },
     {
       question: 'How do I cancel my subscription?',
@@ -202,538 +145,780 @@ export default function LandingPage() {
   ];
 
   const stats = [
-    { value: '10M+', label: 'Emails Processed' },
-    { value: '50K+', label: 'Happy Users' },
-    { value: '80%', label: 'Time Saved' },
-    { value: '99.9%', label: 'Uptime' },
+    { value: '10M+', label: 'Emails Classified' },
+    { value: '50K+', label: 'Productive Users' },
+    { value: '80%', label: 'Reduced Inbox Time' },
+    { value: '99.9%', label: 'Service Uptime' },
   ];
 
+  const dk = isDark;
+
+  // ── Centralised theme tokens ──────────────────────────────────────────
+  const t = {
+    text:       dk ? '#F0F9FF' : '#0F172A',   // headings / bold labels
+    muted:      dk ? '#94A3B8' : '#475569',   // body paragraphs
+    subtle:     dk ? '#64748B' : '#64748B',   // tiny meta text (same both)
+    medium:     dk ? '#CBD5E1' : '#334155',   // list items / secondary text
+    faint:      dk ? '#64748B' : '#94A3B8',   // footer / copyright
+    sectionBg:  dk ? 'rgba(30,41,59,0.4)'  : 'rgba(224,242,254,0.4)',
+    statsBorder:dk ? '1px solid rgba(148,163,184,0.15)' : '1px solid rgba(186,230,253,0.5)',
+    footerBg:   dk ? 'rgba(15,23,42,0.85)' : 'rgba(240,249,255,0.8)',
+    iconBg:     dk ? 'linear-gradient(135deg,rgba(56,189,248,0.15),rgba(6,182,212,0.15))' : 'linear-gradient(135deg,rgba(14,165,233,0.15),rgba(6,182,212,0.15))',
+    iconBorder: dk ? '1px solid rgba(56,189,248,0.2)'  : '1px solid rgba(14,165,233,0.2)',
+    projectBg:  dk ? 'linear-gradient(135deg, rgba(56,189,248,0.1), rgba(6,182,212,0.1))' : 'linear-gradient(135deg, rgba(14,165,233,0.1), rgba(6,182,212,0.1))',
+    projectBorder: dk ? '1.5px solid rgba(56,189,248,0.25)' : '1.5px solid rgba(14,165,233,0.25)',
+    avatarBg:   dk ? 'linear-gradient(135deg,rgba(56,189,248,0.2),rgba(6,182,212,0.2))' : 'linear-gradient(135deg,rgba(14,165,233,0.2),rgba(6,182,212,0.2))',
+    emailItemBg:dk ? 'rgba(30,41,59,0.7)'  : 'rgba(240,249,255,0.7)',
+    emailItemBorder: dk ? '1px solid rgba(148,163,184,0.2)' : '1px solid rgba(186,230,253,0.4)',
+  };
+  // ─────────────────────────────────────────────────────────────────────
+
   return (
-    <div className="min-h-screen bg-background">
+    <div
+      className={dk ? 'dark-mode' : ''}
+      style={{
+        minHeight: '100vh',
+        background: dk
+          ? 'linear-gradient(180deg, #0F172A 0%, #1E293B 55%, #0C4A6E 100%)'
+          : 'linear-gradient(180deg, #F0F9FF 0%, #E0F2FE 50%, #BAE6FD 100%)',
+        color: dk ? '#F0F9FF' : '#0F172A',
+        fontFamily: 'inherit',
+        transition: 'background 0.4s ease, color 0.4s ease',
+      }}
+    >
+      <style>{`
+        /* Dark mode overrides */
+        .dark-mode .nav-ocean {
+          background: rgba(15,23,42,0.92);
+          border-bottom-color: rgba(148,163,184,0.15);
+        }
+        .dark-mode .card-ocean {
+          background: rgba(30,41,59,0.85);
+          border-color: rgba(148,163,184,0.18);
+        }
+        .dark-mode .card-ocean:hover {
+          border-color: #38BDF8;
+          box-shadow: 0 12px 36px rgba(56,189,248,0.18);
+        }
+        .dark-mode .card-popular {
+          background: rgba(30,41,59,0.95);
+          border-color: #38BDF8;
+        }
+        .dark-mode .stat-block {
+          background: rgba(30,41,59,0.6);
+          border-color: rgba(148,163,184,0.15);
+        }
+        .dark-mode .faq-card {
+          background: rgba(30,41,59,0.7);
+          border-color: rgba(148,163,184,0.2);
+        }
+        .dark-mode .faq-card:hover {
+          border-color: #38BDF8;
+        }
+        .dark-mode .nav-link { color: #94A3B8; }
+        .dark-mode .nav-link:hover { color: #38BDF8; }
+        .dark-mode .btn-ghost-ocean {
+          background: rgba(30,41,59,0.8);
+          color: #38BDF8;
+          border-color: #38BDF8;
+        }
+        .dark-mode .btn-ghost-ocean:hover {
+          background: rgba(56,189,248,0.14);
+        }
+        .dark-mode .hero-mockup {
+          background: rgba(15,23,42,0.9);
+          border-color: rgba(148,163,184,0.2);
+        }
+        .dark-mode .badge-pill {
+          background: rgba(56,189,248,0.15);
+          border-color: rgba(56,189,248,0.3);
+          color: #38BDF8;
+        }
+        .dark-mode .step-circle {
+          background: rgba(56,189,248,0.1);
+          border-color: rgba(56,189,248,0.2);
+        }
+        /* Smooth transitions */
+        .nav-ocean, .card-ocean, .stat-block, .faq-card, .btn-ghost-ocean, .hero-mockup, .badge-pill {
+          transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease;
+        }
+        .hover-lift {
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .hover-lift:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 32px rgba(14, 165, 233, 0.18);
+        }
+        .hover-lift-btn {
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, filter 0.3s ease-out;
+        }
+        .hover-lift-btn:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(14, 165, 233, 0.3);
+          filter: brightness(1.08);
+        }
+        .hover-lift-ghost {
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .hover-lift-ghost:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(14, 165, 233, 0.15);
+        }
+        .card-ocean {
+          background: rgba(255,255,255,0.72);
+          border: 1.5px solid rgba(186, 230, 253, 0.7);
+          border-radius: 16px;
+          backdrop-filter: blur(8px);
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+        }
+        .card-ocean:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 36px rgba(6, 182, 212, 0.18);
+          border-color: #0EA5E9;
+        }
+        .card-popular {
+          background: rgba(255,255,255,0.92);
+          border: 2px solid #0EA5E9;
+          box-shadow: 0 8px 32px rgba(14, 165, 233, 0.22);
+          border-radius: 16px;
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .card-popular:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 20px 48px rgba(6, 182, 212, 0.32);
+        }
+        .nav-link {
+          font-size: 0.875rem;
+          color: ${t.medium};
+          text-decoration: none;
+          transition: color 0.2s, transform 0.2s;
+          display: inline-block;
+        }
+        .nav-link:hover {
+          color: #0EA5E9;
+          transform: translateY(-2px);
+        }
+        .stat-block {
+          text-align: center;
+          padding: 1.5rem 1rem;
+          background: rgba(255,255,255,0.6);
+          border-radius: 12px;
+          border: ${t.emailItemBorder};
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .stat-block:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(14,165,233,0.14);
+        }
+        .gradient-text {
+          background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+        .btn-primary-ocean {
+          background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+          color: white;
+          border: none;
+          border-radius: 10px;
+          padding: 0.75rem 2rem;
+          font-size: 1.05rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, filter 0.3s ease-out;
+        }
+        .btn-primary-ocean:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 28px rgba(14,165,233,0.38);
+          filter: brightness(1.1);
+        }
+        .btn-ghost-ocean {
+          background: rgba(255,255,255,0.7);
+          color: #0EA5E9;
+          border: 1.5px solid #0EA5E9;
+          border-radius: 10px;
+          padding: 0.75rem 2rem;
+          font-size: 1.05rem;
+          font-weight: 600;
+          cursor: pointer;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          text-decoration: none;
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, background 0.2s;
+        }
+        .btn-ghost-ocean:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 8px 20px rgba(14,165,233,0.18);
+          background: rgba(14,165,233,0.08);
+        }
+        .hero-mockup {
+          border-radius: 18px;
+          overflow: hidden;
+          border: 1.5px solid rgba(186,230,253,0.8);
+          box-shadow: 0 20px 60px rgba(14,165,233,0.12);
+          background: rgba(255,255,255,0.85);
+          transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        }
+        .hero-mockup:hover {
+          transform: translateY(-6px);
+          box-shadow: 0 32px 80px rgba(6,182,212,0.22);
+        }
+        .nav-ocean {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          z-index: 50;
+          background: ${t.footerBg};
+          backdrop-filter: blur(16px);
+          border-bottom: 1px solid rgba(186,230,253,0.6);
+        }
+        .section-muted {
+          background: rgba(224,242,254,0.5);
+        }
+        .faq-card {
+          background: rgba(255,255,255,0.75);
+          border: 1.5px solid rgba(186,230,253,0.7);
+          border-radius: 12px;
+          cursor: pointer;
+          transition: box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+        }
+        .faq-card:hover {
+          box-shadow: 0 6px 20px rgba(14,165,233,0.12);
+          border-color: #0EA5E9;
+        }
+        .cta-section {
+          background: linear-gradient(135deg, #0EA5E9 0%, #06B6D4 100%);
+          color: white;
+        }
+        .step-circle {
+          width: 96px; height: 96px;
+          border-radius: 50%;
+          background: rgba(14,165,233,0.12);
+          display: flex; align-items: center; justify-content: center;
+          border: 2px solid rgba(14,165,233,0.2);
+        }
+        .step-num {
+          position: absolute;
+          top: -8px; right: -8px;
+          width: 32px; height: 32px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #0EA5E9, #06B6D4);
+          display: flex; align-items: center; justify-content: center;
+          color: white;
+          font-weight: 700;
+          font-size: 0.85rem;
+        }
+        .badge-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 0.25rem;
+          background: rgba(14,165,233,0.12);
+          color: #0EA5E9;
+          border: 1px solid rgba(14,165,233,0.25);
+          border-radius: 99px;
+          padding: 0.3rem 0.85rem;
+          font-size: 0.82rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+        .email-tag {
+          display: inline-block;
+          padding: 0.15rem 0.6rem;
+          border-radius: 6px;
+          font-size: 0.72rem;
+          font-weight: 600;
+        }
+      `}</style>
+
       {/* Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 border-b bg-background/80 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="flex h-16 items-center justify-between">
+      <nav className="nav-ocean">
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+          <div style={{ display: 'flex', height: '64px', alignItems: 'center', justifyContent: 'space-between' }}>
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                <Mail className="h-5 w-5 text-primary-foreground" />
+            <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
+              <div style={{
+                width: '36px', height: '36px', borderRadius: '10px',
+                background: 'linear-gradient(135deg, #0EA5E9, #06B6D4)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+              }}>
+                <Mail style={{ width: '18px', height: '18px', color: 'white' }} />
               </div>
-              <span className="text-xl font-bold">AI Email OS</span>
+              <span style={{ fontSize: '1.2rem', fontWeight: 800, color: t.text }}>SmartDraft</span>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:gap-8">
-              <a href="#features" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Features
-              </a>
-              <a href="#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                How It Works
-              </a>
-              <a href="#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Pricing
-              </a>
-              <a href="#faq" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
-                FAQ
-              </a>
+            {/* Desktop Nav */}
+            <div style={{ display: 'flex', gap: '2rem', alignItems: 'center' }} className="hidden md:flex">
+              <a href="#features" className="nav-link">Features</a>
+              <a href="#how-it-works" className="nav-link">Workflows</a>
+              <a href="#about" className="nav-link">About</a>
+              <a href="#faq" className="nav-link">Support</a>
             </div>
 
-            {/* CTA Buttons */}
-            <div className="hidden md:flex md:items-center md:gap-4">
-              <Link href="/login">
-                <Button variant="ghost">Sign In</Button>
+            {/* CTA Buttons + Theme Toggle */}
+            <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }} className="hidden md:flex">
+              {/* Theme Toggle */}
+              <button
+                onClick={() => setIsDark(!isDark)}
+                title={isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                style={{
+                  width: '38px', height: '38px', borderRadius: '10px',
+                  background: dk ? 'rgba(56,189,248,0.15)' : 'rgba(14,165,233,0.1)',
+                  border: `1.5px solid ${dk ? 'rgba(56,189,248,0.35)' : 'rgba(14,165,233,0.25)'}`,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  flexShrink: 0,
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-2px) rotate(15deg)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; }}
+              >
+                {isDark
+                  ? <Sun style={{ width: '17px', height: '17px', color: '#FBBF24' }} />
+                  : <Moon style={{ width: '17px', height: '17px', color: '#0EA5E9' }} />
+                }
+              </button>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <button className="btn-ghost-ocean" style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}>
+                  Sign In
+                </button>
               </Link>
-              <Link href="/login">
-                <Button>Get Started Free</Button>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <button className="btn-primary-ocean" style={{ padding: '0.5rem 1.25rem', fontSize: '0.9rem' }}>
+                  Create Free Account
+                </button>
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile toggle */}
             <button
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: t.text }}
               className="md:hidden"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
-              {mobileMenuOpen ? (
-                <X className="h-6 w-6" />
-              ) : (
-                <Menu className="h-6 w-6" />
-              )}
+              {mobileMenuOpen ? <X style={{ width: '24px', height: '24px' }} /> : <Menu style={{ width: '24px', height: '24px' }} />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t bg-background">
-            <div className="space-y-1 px-4 py-4">
-              <a
-                href="#features"
-                className="block py-2 text-muted-foreground hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
+          <div style={{
+            background: dk ? 'rgba(15,23,42,0.97)' : 'rgba(240,249,255,0.97)',
+            borderTop: '1px solid rgba(186,230,253,0.6)', padding: '1rem 1.5rem'
+          }}>
+            {['#features|Features', '#how-it-works|Workflows', '#about|About', '#faq|Support'].map(item => {
+              const [href, label] = item.split('|');
+              return (
+                <a key={href} href={href} style={{ display: 'block', padding: '0.5rem 0', color: dk ? '#94A3B8' : '#334155', textDecoration: 'none', fontWeight: 500 }} onClick={() => setMobileMenuOpen(false)}>
+                  {label}
+                </a>
+              );
+            })}
+            <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              {/* Dark toggle in mobile menu */}
+              <button
+                onClick={() => setIsDark(!isDark)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                  background: dk ? 'rgba(56,189,248,0.12)' : 'rgba(14,165,233,0.08)',
+                  border: t.projectBorder,
+                  borderRadius: '10px', padding: '0.5rem 1rem',
+                  cursor: 'pointer', color: dk ? '#38BDF8' : '#0EA5E9',
+                  fontWeight: 600, fontSize: '0.875rem',
+                }}
               >
-                Features
-              </a>
-              <a
-                href="#how-it-works"
-                className="block py-2 text-muted-foreground hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                How It Works
-              </a>
-              <a
-                href="#pricing"
-                className="block py-2 text-muted-foreground hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Pricing
-              </a>
-              <a
-                href="#faq"
-                className="block py-2 text-muted-foreground hover:text-foreground"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                FAQ
-              </a>
-              <div className="pt-4 space-y-2">
-                <Link href="/login" className="block">
-                  <Button variant="outline" className="w-full">Sign In</Button>
-                </Link>
-                <Link href="/login" className="block">
-                  <Button className="w-full">Get Started Free</Button>
-                </Link>
-              </div>
+                {isDark
+                  ? <><Sun style={{ width: '16px', height: '16px', color: '#FBBF24' }} /> Switch to Light Mode</>
+                  : <><Moon style={{ width: '16px', height: '16px' }} /> Switch to Dark Mode</>
+                }
+              </button>
+              <Link href="/login"><button className="btn-ghost-ocean" style={{ width: '100%', justifyContent: 'center' }}>Sign In</button></Link>
+              <Link href="/login"><button className="btn-primary-ocean" style={{ width: '100%', justifyContent: 'center' }}>Create Free Account</button></Link>
             </div>
           </div>
         )}
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center">
-            <Badge variant="secondary" className="mb-4">
-              <Sparkles className="mr-1 h-3 w-3" />
-              Powered by Advanced AI
-            </Badge>
-            <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+      <section style={{ paddingTop: '8rem', paddingBottom: '5rem', paddingLeft: '1.5rem', paddingRight: '1.5rem' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div className="badge-pill">
+              <Sparkles style={{ width: '13px', height: '13px' }} />
+              ✨ Intelligent Email Orchestration
+            </div>
+            <h1 style={{ fontSize: 'clamp(2.5rem, 7vw, 4.5rem)', fontWeight: 900, lineHeight: 1.1, letterSpacing: '-0.02em', color: t.text, marginBottom: '1.5rem' }}>
               Your Inbox,{' '}
-              <span className="bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
-                Supercharged
-              </span>
-              <br />
-              with AI
+              <span className="gradient-text">Revolutionized<br />by Agentic AI</span>
             </h1>
-            <p className="mx-auto mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl">
-              Stop drowning in emails. Let AI classify, prioritize, and draft replies for you.
-              Stay in control with smart approval workflows.
+            <p style={{ maxWidth: '640px', margin: '0 auto 2.5rem', fontSize: '1.15rem', lineHeight: 1.7, color: t.muted }}>
+              Stop drowning in correspondence. Automate routine triage, prioritization, and response drafting while maintaining perfect oversight and governance.
             </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/login">
-                <Button size="lg" className="w-full sm:w-auto text-lg px-8">
-                  Start Free Trial
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center', alignItems: 'center' }}>
+              <Link href="/login" style={{ textDecoration: 'none' }}>
+                <button className="btn-primary-ocean" style={{ fontSize: '1.05rem', padding: '0.85rem 2.2rem' }}>
+                  Start Your Free Trial <ArrowRight style={{ width: '18px', height: '18px' }} />
+                </button>
               </Link>
-              <a href="#how-it-works">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8">
-                  See How It Works
-                </Button>
-              </a>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">
-              No credit card required • Free plan available • Cancel anytime
+            <p style={{ marginTop: '1rem', fontSize: '0.82rem', color: '#64748B' }}>
+              No credit card required · Free plan available · Cancel anytime
             </p>
           </div>
 
-          {/* Hero Image/Preview */}
-          <div className="mt-16 relative">
-            <div className="absolute inset-0 bg-gradient-to-t from-background to-transparent z-10 pointer-events-none h-32 bottom-0 top-auto" />
-            <div className="rounded-xl border bg-card shadow-2xl overflow-hidden">
-              {/* Mock Dashboard */}
-              <div className="bg-muted/50 px-4 py-3 border-b flex items-center gap-2">
-                <div className="flex gap-1.5">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                </div>
-                <div className="flex-1 text-center text-sm text-muted-foreground">
-                  AI Email OS - Dashboard
-                </div>
-              </div>
-              <div className="flex">
-                {/* Sidebar Mock */}
-                <div className="w-16 border-r bg-muted/30 p-3 hidden sm:block">
-                  <div className="space-y-4">
-                    <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
-                      <Mail className="h-5 w-5 text-primary-foreground" />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <Inbox className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <Send className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <FileEdit className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                      <div className="w-10 h-10 rounded-lg bg-muted flex items-center justify-center">
-                        <Sparkles className="h-5 w-5 text-muted-foreground" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* Main Content Mock */}
-                <div className="flex-1 p-4 sm:p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h3 className="text-lg font-semibold">Inbox</h3>
-                    <Badge variant="secondary" className="bg-green-500/10 text-green-500">
-                      <Sparkles className="mr-1 h-3 w-3" />
-                      AI Active
-                    </Badge>
-                  </div>
-                  {/* Email Items Mock */}
-                  <div className="space-y-3">
-                    {[
-                      { from: 'Legal Team', subject: 'Contract Review Required', badge: 'Legal', badgeColor: 'bg-red-500/10 text-red-500', status: 'Needs Approval' },
-                      { from: 'Customer Support', subject: 'Re: Order #12345', badge: 'Support', badgeColor: 'bg-orange-500/10 text-orange-500', status: 'Auto-replied' },
-                      { from: 'Newsletter', subject: 'Weekly AI Digest', badge: 'Newsletter', badgeColor: 'bg-green-500/10 text-green-500', status: 'Archived' },
-                      { from: 'Sales Lead', subject: 'Partnership Opportunity', badge: 'Sales', badgeColor: 'bg-blue-500/10 text-blue-500', status: 'Draft Ready' },
-                    ].map((email, i) => (
-                      <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-muted/50 hover:bg-muted transition-colors">
-                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                          <span className="text-sm font-medium">{email.from[0]}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium truncate">{email.from}</span>
-                            <Badge variant="secondary" className={`text-xs ${email.badgeColor}`}>
-                              {email.badge}
-                            </Badge>
-                          </div>
-                          <p className="text-sm text-muted-foreground truncate">{email.subject}</p>
-                        </div>
-                        <Badge variant="outline" className="flex-shrink-0 hidden sm:flex">
-                          {email.status}
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-12 border-y bg-muted/30">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl font-bold sm:text-4xl">{stat.value}</div>
-                <div className="mt-1 text-sm text-muted-foreground">{stat.label}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Features</Badge>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Everything You Need to Conquer Your Inbox
+      <section id="features" style={{ padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <div className="badge-pill"><Sparkles style={{ width: '13px', height: '13px' }} />Features</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, color: t.text, marginBottom: '0.75rem' }}>
+              Everything You Need to <span className="gradient-text">Conquer Your Inbox</span>
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p style={{ fontSize: '1.05rem', color: t.muted, maxWidth: '540px', margin: '0 auto' }}>
               Powerful AI features that work together to save you hours every week
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem' }}>
             {features.map((feature, i) => (
-              <Card key={i} className="border-2 hover:border-primary/50 transition-colors">
-                <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-primary" />
-                  </div>
-                  <CardTitle>{feature.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <CardDescription className="text-base">
-                    {feature.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">How It Works</Badge>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Get Started in Minutes
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Simple setup, powerful results. No technical skills required.
-            </p>
-          </div>
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-            {howItWorks.map((step, i) => (
-              <div key={i} className="relative">
-                {i < howItWorks.length - 1 && (
-                  <div className="hidden lg:block absolute top-12 left-full w-full h-0.5 bg-border -translate-x-1/2" />
-                )}
-                <div className="text-center">
-                  <div className="relative inline-flex">
-                    <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center">
-                      <step.icon className="h-10 w-10 text-primary" />
-                    </div>
-                    <div className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-bold">
-                      {step.step}
-                    </div>
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold">{step.title}</h3>
-                  <p className="mt-2 text-muted-foreground">{step.description}</p>
+              <div key={i} className="card-ocean" style={{ padding: '1.75rem' }}>
+                <div style={{
+                  width: '48px', height: '48px', borderRadius: '12px',
+                  background: t.iconBg,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  marginBottom: '1rem', border: t.iconBorder,
+                }}>
+                  <feature.icon style={{ width: '22px', height: '22px', color: '#0EA5E9' }} />
                 </div>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: t.text, marginBottom: '0.5rem' }}>{feature.title}</h3>
+                <p style={{ fontSize: '0.9rem', color: t.muted, lineHeight: 1.65 }}>{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Pricing Section */}
-      <section id="pricing" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Pricing</Badge>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Simple, Transparent Pricing
+      {/* How It Works */}
+      <section id="how-it-works" style={{ padding: '5rem 1.5rem', background: t.sectionBg }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <div className="badge-pill">Workflows</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, color: t.text, marginBottom: '0.75rem' }}>
+              Get Started in Minutes
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              Start free, upgrade when you're ready. No hidden fees.
+            <p style={{ fontSize: '1.05rem', color: t.muted, maxWidth: '480px', margin: '0 auto' }}>
+              Simple setup, powerful results. No technical skills required.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3 max-w-5xl mx-auto">
-            {pricing.map((plan, i) => (
-              <Card
-                key={i}
-                className={`relative ${plan.popular ? 'border-primary shadow-lg scale-105' : ''}`}
-              >
-                {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="bg-primary">Most Popular</Badge>
-                  </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '2rem' }}>
+            {howItWorks.map((step, i) => (
+              <div key={i} style={{ textAlign: 'center', position: 'relative' }}>
+                {i < howItWorks.length - 1 && (
+                  <div style={{ display: 'none' }} className="lg:block" />
                 )}
-                <CardHeader className="text-center pb-4">
-                  <CardTitle className="text-2xl">{plan.name}</CardTitle>
-                  <CardDescription>{plan.description}</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">{plan.price}</span>
-                    <span className="text-muted-foreground ml-2">/{plan.period}</span>
+                <div style={{ display: 'inline-flex', position: 'relative' }}>
+                  <div className="step-circle">
+                    <step.icon style={{ width: '36px', height: '36px', color: '#0EA5E9' }} />
                   </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <ul className="space-y-3">
-                    {plan.features.map((feature, j) => (
-                      <li key={j} className="flex items-center gap-2">
-                        <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0" />
-                        <span className="text-sm">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href="/login" className="block">
-                    <Button
-                      className="w-full mt-6"
-                      variant={plan.popular ? 'default' : 'outline'}
-                    >
-                      {plan.cta}
-                    </Button>
-                  </Link>
-                </CardContent>
-              </Card>
+                  <div className="step-num">{step.step}</div>
+                </div>
+                <h3 style={{ marginTop: '1.5rem', fontSize: '1rem', fontWeight: 700, color: t.text, marginBottom: '0.4rem' }}>{step.title}</h3>
+                <p style={{ fontSize: '0.875rem', color: t.muted, lineHeight: 1.65 }}>{step.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-muted/30">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">Testimonials</Badge>
-            <h2 className="text-3xl font-bold sm:text-4xl">
-              Loved by Professionals Everywhere
+      {/* About Section */}
+      <section id="about" style={{ padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+            <div className="badge-pill">About This Project</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, color: t.text, marginBottom: '0.75rem' }}>
+              Built with Passion, <span className="gradient-text">Powered by AI</span>
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-              See what our users have to say about AI Email OS
+            <p style={{ fontSize: '1.05rem', color: t.muted, maxWidth: '580px', margin: '0 auto' }}>
+              This platform is the culmination of academic research, real-world engineering, and a deep belief that AI can transform everyday productivity.
             </p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {testimonials.map((testimonial, i) => (
-              <Card key={i} className="bg-card">
-                <CardContent className="pt-6">
-                  <div className="flex gap-1 mb-4">
-                    {[...Array(testimonial.rating)].map((_, j) => (
-                      <Star key={j} className="h-5 w-5 fill-yellow-500 text-yellow-500" />
-                    ))}
+
+          {/* Creator Card */}
+          <div className="card-ocean" style={{ padding: '2.5rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1.5rem', maxWidth: '560px', margin: '0 auto' }}>
+            {/* Avatar */}
+            <div style={{
+              width: '88px', height: '88px', borderRadius: '50%',
+              background: 'linear-gradient(135deg, #0EA5E9, #06B6D4)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '2.2rem', fontWeight: 900, color: 'white',
+              boxShadow: '0 8px 24px rgba(14,165,233,0.3)',
+              border: '3px solid rgba(255,255,255,0.8)',
+            }}>
+              V
+            </div>
+
+            {/* Info */}
+            <div style={{ textAlign: 'center' }}>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: t.text, marginBottom: '0.25rem' }}>
+                Vijayakrishnan SR
+              </h3>
+              <p style={{ fontSize: '0.95rem', color: '#0EA5E9', fontWeight: 600, marginBottom: '0.5rem' }}>
+                AI &amp; Machine Learning Student
+              </p>
+              <p style={{ fontSize: '0.9rem', color: '#64748B', lineHeight: 1.6 }}>
+                Bharata Mata College
+              </p>
+            </div>
+
+            {/* Project Badge */}
+            <div style={{
+              background: t.projectBg,
+              border: t.projectBorder,
+              borderRadius: '12px', padding: '1rem 1.5rem', textAlign: 'center', width: '100%',
+            }}>
+              <div style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0EA5E9', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '0.35rem' }}>
+                🎓 Final Year Project
+              </div>
+              <p style={{ fontSize: '0.875rem', color: t.muted, lineHeight: 1.65, margin: 0 }}>
+                <strong style={{ color: t.text }}>AI Email Automation Platform</strong> — An agentic AI system that classifies, drafts, and manages email correspondence autonomously, with human-in-the-loop governance and Llama 3.3 70B (Groq) as the AI core.
+              </p>
+            </div>
+
+            {/* Social Links */}
+            <div style={{ display: 'flex', gap: '0.85rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+              {/* LinkedIn */}
+              <a
+                href="https://linkedin.com/in/YOUR_LINKEDIN_USERNAME"  /* 🔗 Replace with your LinkedIn URL */
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-lift"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+                  background: 'rgba(14,165,233,0.08)', border: '1.5px solid rgba(14,165,233,0.3)',
+                  borderRadius: '10px', padding: '0.5rem 1.1rem',
+                  fontSize: '0.85rem', fontWeight: 600, color: '#0EA5E9', textDecoration: 'none',
+                  transition: 'all 0.3s ease-out',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(14,165,233,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(14,165,233,0.08)'; }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                </svg>
+                LinkedIn
+              </a>
+
+              {/* Instagram */}
+              <a
+                href="https://instagram.com/YOUR_INSTAGRAM_HANDLE"  /* 📸 Replace with your Instagram URL */
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-lift"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+                  background: 'rgba(6,182,212,0.08)', border: '1.5px solid rgba(6,182,212,0.3)',
+                  borderRadius: '10px', padding: '0.5rem 1.1rem',
+                  fontSize: '0.85rem', fontWeight: 600, color: '#06B6D4', textDecoration: 'none',
+                  transition: 'all 0.3s ease-out',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(6,182,212,0.18)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(6,182,212,0.08)'; }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+                </svg>
+                Instagram
+              </a>
+
+              {/* GitHub */}
+              <a
+                href="https://github.com/YOUR_GITHUB_USERNAME"  /* 💻 Replace with your GitHub URL */
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-lift"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '0.45rem',
+                  background: 'rgba(15,23,42,0.06)', border: '1.5px solid rgba(15,23,42,0.2)',
+                  borderRadius: '10px', padding: '0.5rem 1.1rem',
+                  fontSize: '0.85rem', fontWeight: 600, color: t.text, textDecoration: 'none',
+                  transition: 'all 0.3s ease-out',
+                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(15,23,42,0.14)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(15,23,42,0.06)'; }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                </svg>
+                GitHub
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section style={{ padding: '5rem 1.5rem', background: t.sectionBg }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <div className="badge-pill">Testimonials</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, color: t.text, marginBottom: '0.75rem' }}>
+              Validated by <span className="gradient-text">Productivity Leaders</span>
+            </h2>
+            <p style={{ fontSize: '1.05rem', color: t.muted, maxWidth: '480px', margin: '0 auto' }}>
+              See what professionals say about AI Email Automation Platform
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: '1.5rem' }}>
+            {testimonials.map((tm, i) => (
+              <div key={i} className="card-ocean" style={{ padding: '1.75rem' }}>
+                <div style={{ display: 'flex', gap: '3px', marginBottom: '0.75rem' }}>
+                  {[...Array(tm.rating)].map((_, j) => (
+                    <Star key={j} style={{ width: '18px', height: '18px', fill: '#FBBF24', color: '#FBBF24' }} />
+                  ))}
+                </div>
+                <p style={{ fontSize: '0.9rem', color: t.muted, lineHeight: 1.7, marginBottom: '1.25rem' }}>"{tm.content}"</p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                  <div style={{
+                    width: '40px', height: '40px', borderRadius: '50%',
+                    background: t.avatarBg,
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    fontWeight: 700, color: '#0EA5E9', fontSize: '0.95rem',
+                    border: '2px solid rgba(14,165,233,0.25)',
+                  }}>
+                    {tm.name[0]}
                   </div>
-                  <p className="text-muted-foreground mb-6">"{testimonial.content}"</p>
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                      <span className="font-medium">{testimonial.name[0]}</span>
-                    </div>
-                    <div>
-                      <div className="font-medium">{testimonial.name}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {testimonial.role} at {testimonial.company}
-                      </div>
-                    </div>
+                  <div>
+                    <div style={{ fontWeight: 700, fontSize: '0.9rem', color: t.text }}>{tm.name}</div>
+                    <div style={{ fontSize: '0.78rem', color: t.subtle }}>{tm.role} at {tm.company}</div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
+
             ))}
           </div>
         </div>
       </section>
 
-      {/* FAQ Section */}
-      <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl">
-          <div className="text-center mb-16">
-            <Badge variant="secondary" className="mb-4">FAQ</Badge>
-            <h2 className="text-3xl font-bold sm:text-4xl">
+      {/* FAQ */}
+      <section id="faq" style={{ padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: '740px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '3.5rem' }}>
+            <div className="badge-pill">Support</div>
+            <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, color: t.text, marginBottom: '0.75rem' }}>
               Frequently Asked Questions
             </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Got questions? We've got answers.
-            </p>
+            <p style={{ fontSize: '1.05rem', color: t.muted }}>Got questions? We've got answers.</p>
           </div>
-          <div className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {faqs.map((faq, i) => (
-              <Card
-                key={i}
-                className="cursor-pointer"
-                onClick={() => setOpenFaq(openFaq === i ? null : i)}
-              >
-                <CardHeader className="py-4">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base font-medium">{faq.question}</CardTitle>
-                    <ChevronDown
-                      className={`h-5 w-5 text-muted-foreground transition-transform ${
-                        openFaq === i ? 'rotate-180' : ''
-                      }`}
-                    />
-                  </div>
-                </CardHeader>
+              <div key={i} className="faq-card" onClick={() => setOpenFaq(openFaq === i ? null : i)}>
+                <div style={{ padding: '1rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                  <span style={{ fontWeight: 600, fontSize: '0.95rem', color: t.text }}>{faq.question}</span>
+                  <ChevronDown style={{
+                    width: '18px', height: '18px', color: '#0EA5E9', flexShrink: 0,
+                    transform: openFaq === i ? 'rotate(180deg)' : 'none',
+                    transition: 'transform 0.3s',
+                  }} />
+                </div>
                 {openFaq === i && (
-                  <CardContent className="pt-0 pb-4">
-                    <p className="text-muted-foreground">{faq.answer}</p>
-                  </CardContent>
+                  <div style={{ padding: '0 1.25rem 1rem', color: t.muted, fontSize: '0.9rem', lineHeight: 1.7 }}>
+                    {faq.answer}
+                  </div>
                 )}
-              </Card>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-3xl font-bold sm:text-4xl">
+      <section className="cta-section" style={{ padding: '5rem 1.5rem' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
+          <h2 style={{ fontSize: 'clamp(1.8rem,4vw,2.5rem)', fontWeight: 800, marginBottom: '1rem' }}>
             Ready to Transform Your Inbox?
           </h2>
-          <p className="mt-4 text-lg opacity-90">
-            Join thousands of professionals who save hours every week with AI Email OS.
+          <p style={{ fontSize: '1.1rem', opacity: 0.9, marginBottom: '2rem', maxWidth: '560px', margin: '0 auto 2rem' }}>
+            Join thousands of professionals who save hours every week with AI Email Automation Platform.
           </p>
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/login">
-              <Button size="lg" variant="secondary" className="w-full sm:w-auto text-lg px-8">
-                Get Started Free
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'center' }}>
+            <Link href="/login" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: 'white', color: '#0EA5E9', border: 'none',
+                borderRadius: '10px', padding: '0.85rem 2.2rem',
+                fontSize: '1.05rem', fontWeight: 700, cursor: 'pointer',
+                display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+                transition: 'transform 0.3s, box-shadow 0.3s',
+              }} className="hover-lift">
+                Create Free Account <ArrowRight style={{ width: '18px', height: '18px' }} />
+              </button>
             </Link>
-            <Link href="/login">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto text-lg px-8 bg-transparent border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
-              >
+            <Link href="/login" style={{ textDecoration: 'none' }}>
+              <button style={{
+                background: 'transparent', color: 'white',
+                border: '2px solid rgba(255,255,255,0.7)',
+                borderRadius: '10px', padding: '0.85rem 2.2rem',
+                fontSize: '1.05rem', fontWeight: 700, cursor: 'pointer',
+                transition: 'transform 0.3s, box-shadow 0.3s, background 0.2s',
+              }} className="hover-lift">
                 Sign In
-              </Button>
+              </button>
             </Link>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t py-12 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 md:grid-cols-4">
-            {/* Brand */}
-            <div className="md:col-span-1">
-              <Link href="/" className="flex items-center gap-2">
-                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary">
-                  <Mail className="h-5 w-5 text-primary-foreground" />
+      <footer style={{ borderTop: '1px solid rgba(186,230,253,0.6)', padding: '3rem 1.5rem', background: t.footerBg }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(160px,1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
+            <div>
+              <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', marginBottom: '0.75rem' }}>
+                <div style={{
+                  width: '32px', height: '32px', borderRadius: '8px',
+                  background: 'linear-gradient(135deg,#0EA5E9,#06B6D4)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <Mail style={{ width: '16px', height: '16px', color: 'white' }} />
                 </div>
-                <span className="text-xl font-bold">AI Email OS</span>
+                <span style={{ fontWeight: 800, color: t.text }}>SmartDraft</span>
               </Link>
-              <p className="mt-4 text-sm text-muted-foreground">
+              <p style={{ fontSize: '0.83rem', color: '#64748B', lineHeight: 1.6 }}>
                 The AI-powered email client that helps you work smarter, not harder.
               </p>
             </div>
-
-            {/* Product Links */}
-            <div>
-              <h4 className="font-semibold mb-4">Product</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#features" className="hover:text-foreground">Features</a></li>
-                <li><a href="#pricing" className="hover:text-foreground">Pricing</a></li>
-                <li><a href="#" className="hover:text-foreground">Integrations</a></li>
-                <li><a href="#" className="hover:text-foreground">Changelog</a></li>
-              </ul>
-            </div>
-
-            {/* Company Links */}
-            <div>
-              <h4 className="font-semibold mb-4">Company</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">About</a></li>
-                <li><a href="#" className="hover:text-foreground">Blog</a></li>
-                <li><a href="#" className="hover:text-foreground">Careers</a></li>
-                <li><a href="#" className="hover:text-foreground">Contact</a></li>
-              </ul>
-            </div>
-
-            {/* Legal Links */}
-            <div>
-              <h4 className="font-semibold mb-4">Legal</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><a href="#" className="hover:text-foreground">Privacy Policy</a></li>
-                <li><a href="#" className="hover:text-foreground">Terms of Service</a></li>
-                <li><a href="#" className="hover:text-foreground">Cookie Policy</a></li>
-                <li><a href="#" className="hover:text-foreground">GDPR</a></li>
-              </ul>
-            </div>
+            {[
+              { title: 'Product', links: ['Features', 'Pricing', 'Integrations', 'Changelog'] },
+              { title: 'Company', links: ['About', 'Blog', 'Careers', 'Contact'] },
+              { title: 'Legal', links: ['Privacy Policy', 'Terms of Service', 'Cookie Policy', 'GDPR'] },
+            ].map(col => (
+              <div key={col.title}>
+                <h4 style={{ fontWeight: 700, fontSize: '0.9rem', color: t.text, marginBottom: '0.75rem' }}>{col.title}</h4>
+                <ul style={{ listStyle: 'none', padding: 0, display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                  {col.links.map(link => (
+                    <li key={link}>
+                      <a href="#" style={{ fontSize: '0.83rem', color: '#64748B', textDecoration: 'none', transition: 'color 0.2s' }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#0EA5E9')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#64748B')}>{link}</a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
           </div>
-
-          <div className="mt-12 pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} AI Email OS. All rights reserved.
-            </p>
-            <div className="flex items-center gap-4">
-              <a href="#" className="text-muted-foreground hover:text-foreground">
-                <Globe className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-muted-foreground hover:text-foreground">
-                <MessageSquare className="h-5 w-5" />
-              </a>
+          <div style={{ borderTop: '1px solid rgba(186,230,253,0.5)', paddingTop: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+            <p style={{ fontSize: '0.82rem', color: t.faint }}>© {new Date().getFullYear()} SmartDraft. All rights reserved.</p>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              {[Globe, MessageSquare].map((Icon, i) => (
+                <a key={i} href="#" style={{ color: t.faint, transition: 'color 0.2s' }}
+                  onMouseEnter={e => (e.currentTarget.style.color = '#0EA5E9')}
+                  onMouseLeave={e => (e.currentTarget.style.color = '#94A3B8')}>
+                  <Icon style={{ width: '20px', height: '20px' }} />
+                </a>
+              ))}
             </div>
           </div>
         </div>

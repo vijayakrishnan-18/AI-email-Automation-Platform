@@ -25,8 +25,6 @@ export function DashboardLayout({
   const [aiEnabled, setAiEnabled] = useState(false);
   const [pendingApprovals, setPendingApprovals] = useState(0);
 
-  const supabase = createClient();
-
   // Auto-sync hook
   const { isSyncing, syncNow, lastSyncAt, syncIntervalMinutes } = useAutoSync({
     enabled: true,
@@ -37,6 +35,7 @@ export function DashboardLayout({
   });
 
   const refreshPendingApprovals = async () => {
+    const supabase = createClient();
     const {
       data: { user: authUser },
     } = await supabase.auth.getUser();
@@ -53,6 +52,7 @@ export function DashboardLayout({
   };
 
   useEffect(() => {
+    const supabase = createClient();
     const fetchUserData = async () => {
       // Get auth user
       const {
@@ -94,9 +94,10 @@ export function DashboardLayout({
     };
 
     fetchUserData();
-  }, [supabase]);
+  }, []);
 
   const handleToggleAI = async () => {
+    const supabase = createClient();
     const {
       data: { user: authUser },
     } = await supabase.auth.getUser();

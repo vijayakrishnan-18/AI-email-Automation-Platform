@@ -4,48 +4,66 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    /* Light Mode: Blue Ocean Gradient colors */
+    --background: 204 100% 97%; /* #F0F9FF */
+    --foreground: 222.2 47.4% 11.2%; /* #0F172A */
+    
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 0 0% 100%;
-    --primary-foreground: 240 10% 3.9%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    
+    --primary: 199 89% 48%; /* #0EA5E9 */
+    --primary-foreground: 210 40% 98%;
+    
+    --secondary: 204 94% 94%; /* #E0F2FE */
+    --secondary-foreground: 199 89% 48%; /* #0EA5E9 */
+    
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    
+    --accent: 199 89% 48%; /* #0EA5E9 */
+    --accent-foreground: 210 40% 98%;
+    
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
+    --destructive-foreground: 210 40% 98%;
+    
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 199 89% 48%;
+    --radius: 0.75rem; /* softer, rounder corners */
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Dark Mode: Deep Ocean Night colors */
+    --background: 222.2 47.4% 11.2%; /* #0F172A */
+    --foreground: 210 40% 98%;
+    
+    --card: 222.2 47.4% 13%; /* slightly lighter than bg */
+    --card-foreground: 210 40% 98%;
+    
+    --popover: 222.2 47.4% 11.2%;
+    --popover-foreground: 210 40% 98%;
+    
+    --primary: 199 95% 54%; /* #38BDF8 (Lighter azure for dark mode) */
+    --primary-foreground: 222.2 47.4% 1.2%;
+    
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 199 95% 54%;
   }
 }
 
@@ -126,3 +144,104 @@
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
 }
+
+/* Global Ocean Theme Utilities */
+.hover-lift {
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(14, 165, 233, 0.18);
+}
+.dark .hover-lift:hover {
+  box-shadow: 0 12px 32px rgba(56, 189, 248, 0.18);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, hsl(var(--primary)), #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Dashboard-wide hover lift rules ──────────────────────────────────────── */
+
+/* Cards */
+[class*="card"] {
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+}
+[class*="card"]:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.13);
+}
+.dark [class*="card"]:hover {
+  box-shadow: 0 8px 24px rgba(56, 189, 248, 0.13);
+}
+
+/* All buttons */
+button:not(:disabled),
+[role="button"]:not(:disabled) {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background 0.2s;
+}
+button:not(:disabled):hover,
+[role="button"]:not(:disabled):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.2);
+}
+.dark button:not(:disabled):hover,
+.dark [role="button"]:not(:disabled):hover {
+  box-shadow: 0 4px 14px rgba(56, 189, 248, 0.18);
+}
+
+/* Icon SVGs inside icon-buttons — subtle scale */
+button:hover svg {
+  transform: scale(1.15);
+  transition: transform 0.2s ease-out;
+}
+
+/* Nav / sidebar / header links */
+header a,
+nav a,
+aside a {
+  transition: transform 0.2s ease-out, color 0.2s;
+}
+header a:hover,
+nav a:hover,
+aside a:hover {
+  transform: translateY(-1px);
+}
+
+/* Badges */
+[class*="badge"] {
+  transition: transform 0.18s ease-out;
+}
+[class*="badge"]:hover {
+  transform: scale(1.06);
+}
+
+/* Avatars */
+[class*="avatar"] {
+  transition: transform 0.22s ease-out, box-shadow 0.22s ease-out;
+}
+[class*="avatar"]:hover {
+  transform: scale(1.07);
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25);
+}
+
+/* Dropdown menu items — slide right instead of up */
+[role="menuitem"] {
+  transition: transform 0.15s ease-out, background 0.15s;
+}
+[role="menuitem"]:hover {
+  transform: translateX(4px);
+}
+
+/* Switch / Toggle */
+[role="switch"] {
+  transition: transform 0.2s ease-out;
+}
+[role="switch"]:hover {
+  transform: scale(1.08);
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
+

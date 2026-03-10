@@ -8,26 +8,22 @@ export default function ThemeToggle() {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    // 1. Check if user explicitly set a preference before
     const stored = localStorage.getItem('theme');
+    
+    // 2. If explicitly dark, respect that
     if (stored === 'dark') {
       document.documentElement.classList.add('dark');
       setIsDark(true);
       return;
     }
-    if (stored === 'light') {
-      document.documentElement.classList.remove('dark');
-      setIsDark(false);
-      return;
-    }
-
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (prefersDark) {
-      document.documentElement.classList.add('dark');
-      setIsDark(true);
-    } else {
-      document.documentElement.classList.remove('dark');
-      setIsDark(false);
-    }
+    
+    // 3. Otherwise (explicitly light, or NO preference set), default to LIGHT
+    document.documentElement.classList.remove('dark');
+    setIsDark(false);
+    
+    // We explicitly DO NOT check window.matchMedia('(prefers-color-scheme: dark)')
+    // anymore because the user requested Light Mode as the absolute default.
   }, []);
 
   const toggle = () => {

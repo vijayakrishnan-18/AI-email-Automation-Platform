@@ -9,6 +9,7 @@ import {
 } from '@/lib/api-utils';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase/server';
 import { GmailClient } from '@/lib/gmail/client';
+import { validateEmailDomain } from '@/lib/email-validator';
 
 const SendEmailSchema = z.object({
   threadId: z.string().uuid(),
@@ -46,6 +47,12 @@ export async function POST(request: NextRequest) {
     }
 
     const emailAccount = thread.email_account;
+
+    // Validate recipient domain before sending
+    const isDomainValid = await validateEmailDomain(to);
+    if (!isDomainValid) {
+      return errorResponse('The recipient domain does not have a valid email setup. Please check the email address.', 400);
+    }
 
     // Create Gmail client and send
     const gmailClient = new GmailClient(

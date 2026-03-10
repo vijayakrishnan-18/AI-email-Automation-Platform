@@ -11,7 +11,7 @@ import {
   RotateCcw,
   Loader2,
   RefreshCw,
-  ArrowLeft,
+  X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -74,6 +74,7 @@ export function FolderPageLayout({
 }: FolderPageLayoutProps) {
   const [emails, setEmails] = useState<EmailItem[]>([]);
   const [selectedEmail, setSelectedEmail] = useState<EmailDetails | null>(null);
+  const [listVisible, setListVisible] = useState(true);
   const [loading, setLoading] = useState(true);
   const [loadingEmail, setLoadingEmail] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -115,6 +116,14 @@ export function FolderPageLayout({
 
   const fetchEmailDetails = async (messageId: string) => {
     setLoadingEmail(true);
+
+    // Optimistically mark the email as read in the list view immediately
+    setEmails(currentEmails =>
+      currentEmails.map(e =>
+        e.gmail_message_id === messageId ? { ...e, is_unread: false } : e
+      )
+    );
+
     try {
       const response = await fetch(`/api/folders/message?id=${messageId}`);
       const result = await response.json();
@@ -231,24 +240,36 @@ export function FolderPageLayout({
 
   return (
     <div className="flex h-full">
-      {/* Email List */}
+      {/* Email List Panel */}
+      {listVisible && (
       <div className={cn(
-        'flex flex-col border-r',
-        selectedEmail ? 'w-96' : 'w-full'
+        'flex flex-col border-r transition-all duration-300',
+        selectedEmail ? 'w-96 hidden md:flex' : 'w-full'
       )}>
         {/* Header */}
         <div className="flex items-center justify-between border-b px-4 py-3">
           <h2 className="text-lg font-semibold">{title}</h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => fetchEmails(true)}
-            disabled={refreshing}
-          >
-            <RefreshCw className={cn('h-4 w-4', refreshing && 'animate-spin')} />
-          </Button>
+          <div className="flex items-center gap-1">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => fetchEmails(true)}
+              disabled={refreshing}
+              title="Refresh"
+            >
+              <RefreshCw className={cn('h-4 w-4', refreshing && 'animate-spin')} />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => { setListVisible(false); setSelectedEmail(null); }}
+              title="Close list"
+              className="text-muted-foreground hover:text-foreground"
+            >
+              <X className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
-
         {/* Email List */}
         {emails.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center text-muted-foreground">
@@ -343,6 +364,21 @@ export function FolderPageLayout({
           </ScrollArea>
         )}
       </div>
+      )}
+
+      {/* If list is hidden, show a narrow side-strip with restore button */}
+      {!listVisible && (
+        <div className="flex flex-col items-center justify-start border-r pt-4 px-2 w-14 gap-4 bg-muted/20">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setListVisible(true)}
+            title="Show email list"
+          >
+            <Mail className="h-5 w-5 text-primary" />
+          </Button>
+        </div>
+      )}
 
       {/* Email Viewer */}
       {selectedEmail && (
@@ -356,14 +392,6 @@ export function FolderPageLayout({
               {/* Email Header */}
               <div className="border-b p-4">
                 <div className="mb-4 flex items-center justify-between">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setSelectedEmail(null)}
-                  >
-                    <ArrowLeft className="mr-2 h-4 w-4" />
-                    Back
-                  </Button>
                   <div className="flex items-center gap-2">
                     {showActions.star && (
                       <Button
@@ -414,6 +442,16 @@ export function FolderPageLayout({
                       </Button>
                     )}
                   </div>
+                  {/* Close (X) button for the right panel */}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => setSelectedEmail(null)}
+                    title="Close email"
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-5 w-5" />
+                  </Button>
                 </div>
 
                 <h1 className="mb-2 text-xl font-semibold">

@@ -10,6 +10,7 @@ import {
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase/server';
 import { GmailClient } from '@/lib/gmail/client';
 import { composeEmail } from '@/agents/compose-agent';
+import { validateEmailDomain } from '@/lib/email-validator';
 
 // Generate email from instructions
 const GenerateSchema = z.object({
@@ -112,6 +113,12 @@ export async function PUT(request: NextRequest) {
 
     if (accountError || !emailAccount) {
       return errorResponse('No active email account found. Please connect your Gmail.', 400);
+    }
+
+    // Validate recipient domain before sending
+    const isDomainValid = await validateEmailDomain(to);
+    if (!isDomainValid) {
+      return errorResponse('The recipient domain does not have a valid email setup. Please check the email address.', 400);
     }
 
     // Create Gmail client and send

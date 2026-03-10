@@ -151,6 +151,18 @@ export default function ComposePage() {
     loadDraft();
   }, [draftId]);
 
+  // Auto-hide success and error messages after 4 seconds
+  useEffect(() => {
+    if (success || error) {
+      const timer = setTimeout(() => {
+        setSuccess(null);
+        setError(null);
+      }, 4000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [success, error]);
+
   const handleInstructionsVoiceToggle = () => {
     if (instructionsVoice.isListening) {
       instructionsVoice.stopListening();

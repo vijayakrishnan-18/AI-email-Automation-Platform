@@ -179,9 +179,11 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
       {/* Email Thread */}
       <ScrollArea className="flex-1">
         <div className="space-y-4 p-4">
-          {thread.emails.map((email, index) => {
+          {[...thread.emails].reverse().map((email, index) => {
             const isExpanded = expandedEmails.has(email.id);
-            const isLatest = index === thread.emails.length - 1;
+            // After reversing, index 0 is the newest, but we'll stick to original logic:
+            // The newest is what they want expanded by default, which is already handled
+            // since expandedEmails initially has the newest message ID.
             const senderName =
               email.from_name || email.from_address.split('@')[0];
 
@@ -297,25 +299,60 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
                 )}
 
                 {/* Action Buttons */}
-                {thread.approval?.status === 'pending' && (
-                  <div className="mt-4 flex gap-2">
-                    <Button
-                      onClick={handleApprove}
-                      className="flex-1 bg-green-600 hover:bg-green-700"
-                    >
+                <div className="mt-4 flex gap-2">
+                  <Button
+                    onClick={async () => {
+                      if (thread.approval?.status === 'pending') {
+                        handleApprove();
+                      } else {
+                        // Manually sending the draft if no formal approval object exists
+                        setIsSending(true);
+                        try {
+                          const response = await fetch('/api/send', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              threadId: thread.id,
+                              to: replyTo,
+                              subject: replySubject,
+                              body: isEditing ? editedDraft : thread.draft?.body_text,
+                            }),
+                          });
+                          if (response.ok) {
+                            onReplySent?.();
+                          }
+                        } finally {
+                          setIsSending(false);
+                        }
+                      }
+                    }}
+                    disabled={isSending}
+                    className="flex-1 bg-green-600 hover:bg-green-700"
+                  >
+                    {isSending ? (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    ) : thread.approval?.status === 'pending' ? (
                       <Check className="mr-2 h-4 w-4" />
-                      {isEditing ? 'Approve & Send (Modified)' : 'Approve & Send'}
-                    </Button>
+                    ) : (
+                      <Send className="mr-2 h-4 w-4" />
+                    )}
+                    {isEditing
+                      ? (thread.approval?.status === 'pending' ? 'Approve & Send (Modified)' : 'Send Modified Draft')
+                      : (thread.approval?.status === 'pending' ? 'Approve & Send' : 'Send Draft')}
+                  </Button>
+
+                  {thread.approval?.status === 'pending' && (
                     <Button
                       variant="destructive"
                       onClick={handleReject}
+                      disabled={isSending}
                       className="flex-1"
                     >
                       <X className="mr-2 h-4 w-4" />
                       Reject
                     </Button>
-                  </div>
-                )}
+                  )}
+                </div>
               </CardContent>
             </Card>
           )}

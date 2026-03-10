@@ -30,6 +30,7 @@ const REPLY_GENERATION_SYSTEM_PROMPT = `You are a professional email reply write
 
 ## IMPORTANT:
 - Never hallucinate facts, dates, or details
+- Do NOT include any email headers (To, From, Subject, Date, Message-Id, etc.) inside the body text. The body should ONLY contain the actual message text.
 - If you don't have enough context to answer something, acknowledge it
 - Be direct and get to the point quickly
 - Match the formality level of the incoming email
