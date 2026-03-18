@@ -52,6 +52,7 @@ export interface ContextBuilderInput {
   userContext?: {
     signature?: string;
     defaultTone?: string;
+    name?: string;
     previousReplies?: string[];
   };
 }

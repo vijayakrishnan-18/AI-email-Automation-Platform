@@ -170,6 +170,7 @@ export async function processIncomingEmail(
     userContext: {
       signature: input.userSettings.signature || undefined,
       defaultTone: input.userSettings.default_tone,
+      name: input.userSettings.default_from_name || undefined,
     },
   };
 
@@ -190,6 +191,7 @@ export async function processIncomingEmail(
     userPreferences: {
       signature: input.userSettings.signature || undefined,
       defaultTone: input.userSettings.default_tone,
+      name: input.userSettings.default_from_name || undefined,
     },
   };
 
@@ -263,7 +265,10 @@ export async function processIncomingEmail(
   // ========================================
   let addedToApprovalQueue = false;
 
-  if (decisionResult.decision === 'NEEDS_APPROVAL') {
+  if (
+    decisionResult.decision === 'NEEDS_APPROVAL' ||
+    decisionResult.decision === 'ESCALATE'
+  ) {
     const { error: approvalError } = await supabase.from('approval_queue').insert({
       user_id: input.userId,
       thread_id: input.thread.id,
@@ -447,6 +452,7 @@ function getDefaultSettings(userId: string): UserSettings {
     auto_reply_enabled: false,
     require_approval_above_confidence: 0.8,
     default_tone: 'professional',
+    default_from_name: null,
     signature: null,
     working_hours_enabled: false,
     working_hours_start: '09:00',

@@ -50,7 +50,8 @@ IMPORTANT:
 - If no clear email is found, look for patterns like "send to X" or "email X"
 - Write exactly what the user wants to convey - don't add unnecessary fluff
 - Be natural and match the user's intended tone
-- Do NOT include any email headers (To, From, Subject, Date, Message-Id, etc.) inside the body text. The body should ONLY contain the actual message text.`;
+- Do NOT include any email headers (To, From, Subject, Date, Message-Id, etc.) inside the body text. The body should ONLY contain the actual message text.
+- FORMATTING IS CRITICAL: Use double newlines (\n\n) between paragraphs, greeting, body, and sign-offs to ensure professional spacing.`;
 
 export interface ComposeInput {
   instructions: string;

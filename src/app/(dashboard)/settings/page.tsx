@@ -277,6 +277,25 @@ export default function SettingsPage() {
 
             <Separator />
 
+            {/* Default From Name */}
+            <div className="space-y-2">
+              <label className="font-medium">Default From Name</label>
+              <p className="text-sm text-muted-foreground">
+                The name the AI will use to sign off your emails (e.g., "Regards, [Your Name]").
+              </p>
+              <Input
+                value={settings.default_from_name || ''}
+                onChange={(e) =>
+                  updateSetting('default_from_name', e.target.value || null)
+                }
+                placeholder="e.g., John"
+                className="max-w-sm"
+                disabled={!settings.ai_enabled}
+              />
+            </div>
+
+            <Separator />
+
             {/* Email Signature */}
             <div className="space-y-2">
               <label className="font-medium">Email Signature</label>

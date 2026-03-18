@@ -50,12 +50,7 @@ const aiNavigation = [
   { name: 'Settings', href: '/settings', icon: Settings },
 ];
 
-interface SidebarProps {
-  aiEnabled?: boolean;
-  onToggleAI?: () => void;
-}
-
-export function Sidebar({ aiEnabled = false, onToggleAI }: SidebarProps) {
+export function Sidebar() {
   const pathname = usePathname();
 
   return (
@@ -146,33 +141,6 @@ export function Sidebar({ aiEnabled = false, onToggleAI }: SidebarProps) {
             );
           })}
         </nav>
-
-        {/* AI Kill Switch */}
-        <div className="border-t p-2">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant={aiEnabled ? 'default' : 'outline'}
-                size="icon"
-                className={cn(
-                  'h-10 w-10',
-                  aiEnabled
-                    ? 'bg-green-600 hover:bg-green-700'
-                    : 'border-destructive text-destructive hover:bg-destructive/10'
-                )}
-                onClick={onToggleAI}
-              >
-                <Power className="h-5 w-5" />
-                <span className="sr-only">
-                  {aiEnabled ? 'AI Enabled' : 'AI Disabled'}
-                </span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="right" sideOffset={10}>
-              {aiEnabled ? 'AI Enabled - Click to disable' : 'AI Disabled - Click to enable'}
-            </TooltipContent>
-          </Tooltip>
-        </div>
       </div>
     </TooltipProvider>
   );

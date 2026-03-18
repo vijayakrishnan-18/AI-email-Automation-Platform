@@ -246,18 +246,20 @@ export class GmailClient {
     await this.ensureValidToken();
 
     const profile = await this.getProfile();
+    const htmlBody = body.replace(/\n/g, '<br>');
+
     const headers = [
       `From: ${profile.emailAddress}`,
       `To: ${to}`,
       `Subject: ${subject}`,
       threadId ? `In-Reply-To: ${threadId}` : null,
       threadId ? `References: ${threadId}` : null,
-      'Content-Type: text/plain; charset=utf-8',
+      'Content-Type: text/html; charset=utf-8',
     ]
       .filter(Boolean)
       .join('\r\n');
 
-    const email = `${headers}\r\n\r\n${body}`;
+    const email = `${headers}\r\n\r\n${htmlBody}`;
 
     // Standard Base64Url encoding for Gmail API
     const encodedMessage = Buffer.from(email)
@@ -280,18 +282,20 @@ export class GmailClient {
     await this.ensureValidToken();
 
     const profile = await this.getProfile();
+    const htmlBody = body.replace(/\n/g, '<br>');
+
     const headers = [
       `From: ${profile.emailAddress}`,
       `To: ${to}`,
       `Subject: ${subject}`,
       threadId ? `In-Reply-To: ${threadId}` : null,
       threadId ? `References: ${threadId}` : null,
-      'Content-Type: text/plain; charset=utf-8',
+      'Content-Type: text/html; charset=utf-8',
     ]
       .filter(Boolean)
       .join('\r\n');
 
-    const email = `${headers}\r\n\r\n${body}`;
+    const email = `${headers}\r\n\r\n${htmlBody}`;
 
     // Standard Base64Url encoding for Gmail API
     const encodedMessage = Buffer.from(email)

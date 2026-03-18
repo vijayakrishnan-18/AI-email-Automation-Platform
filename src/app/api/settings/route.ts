@@ -13,6 +13,7 @@ const UpdateSettingsSchema = z.object({
   auto_reply_enabled: z.boolean().optional(),
   require_approval_above_confidence: z.number().min(0).max(1).optional(),
   default_tone: z.string().max(50).optional(),
+  default_from_name: z.string().max(100).nullable().optional(),
   signature: z.string().max(1000).nullable().optional(),
   working_hours_enabled: z.boolean().optional(),
   working_hours_start: z.string().regex(/^\d{2}:\d{2}$/).optional(),

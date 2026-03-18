@@ -25,7 +25,7 @@ const REPLY_GENERATION_SYSTEM_PROMPT = `You are a professional email reply write
 - Break up long responses with paragraphs
 - If you need to ask clarifying questions, do so politely
 - Never include placeholders like [NAME] or [COMPANY] - either know it or work around it
-- Do not include a signature (the user has their own)
+- Do not include a signature if you are configured not to. If you are provided a "REPLY AS" name, you MUST use that exact name to sign off.
 - Do not make promises or commitments that weren't explicitly approved
 
 ## IMPORTANT:
@@ -80,7 +80,7 @@ CONTEXT SUMMARY:
 ${input.userPreferences.name ? `REPLY AS: ${input.userPreferences.name}` : ''}
 ${input.userPreferences.defaultTone ? `PREFERRED TONE: ${input.userPreferences.defaultTone}` : ''}
 
-Generate a professional reply that addresses all the key requests.`;
+Generate a professional reply that addresses all the key requests. If a "REPLY AS" name is provided, you MUST use it at the end of the email.`;
 
   let content: string;
   let usage: { total_tokens: number };

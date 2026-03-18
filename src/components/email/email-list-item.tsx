@@ -138,8 +138,16 @@ export function EmailListItem({
             </span>
           )}
 
-          {/* Approval Status */}
-          {approval?.status === 'pending' && (
+          {/* Escalate Status */}
+          {decision?.decision === 'ESCALATE' && (
+            <Badge variant="destructive" className="text-xs">
+              <AlertCircle className="mr-1 h-3 w-3" />
+              Escalated
+            </Badge>
+          )}
+
+          {/* Approval Status (only if not escalated) */}
+          {approval?.status === 'pending' && decision?.decision !== 'ESCALATE' && (
             <Badge variant="warning" className="text-xs">
               <AlertCircle className="mr-1 h-3 w-3" />
               Needs Approval

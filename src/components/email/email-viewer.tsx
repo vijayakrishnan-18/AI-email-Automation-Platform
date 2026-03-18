@@ -20,6 +20,7 @@ import {
   ChevronUp,
   Reply,
   Loader2,
+  RefreshCw,
 } from 'lucide-react';
 
 interface Email {
@@ -78,6 +79,10 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
   const [replyBody, setReplyBody] = useState('');
   const [isSending, setIsSending] = useState(false);
   const [sendError, setSendError] = useState<string | null>(null);
+
+  // Reprocess state
+  const [isReprocessing, setIsReprocessing] = useState(false);
+  const [reprocessResult, setReprocessResult] = useState<string | null>(null);
 
   // Get the last incoming email to reply to
   const lastIncomingEmail = [...thread.emails].reverse().find(e => e.is_incoming);
@@ -151,6 +156,30 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
   const resetDraft = () => {
     setEditedDraft(thread.draft?.body_text || '');
     setIsEditing(false);
+  };
+
+  const handleReprocess = async () => {
+    setIsReprocessing(true);
+    setReprocessResult(null);
+    try {
+      const response = await fetch('/api/reprocess', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ threadId: thread.id }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        setReprocessResult(`Decision: ${data.data.decision}`);
+        // Reload to show updated badges
+        onReplySent?.();
+      } else {
+        setReprocessResult(`Error: ${data.error || 'Failed'}`);
+      }
+    } catch (error) {
+      setReprocessResult('Error: Failed to reprocess');
+    } finally {
+      setIsReprocessing(false);
+    }
   };
 
   return (
@@ -235,10 +264,25 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
           {thread.classification && (
             <Card className="border-primary/20 bg-primary/5">
               <CardHeader className="p-4 pb-2">
-                <CardTitle className="flex items-center gap-2 text-sm">
-                  <Sparkles className="h-4 w-4" />
-                  AI Analysis
-                </CardTitle>
+                <div className="flex items-center justify-between">
+                  <CardTitle className="flex items-center gap-2 text-sm">
+                    <Sparkles className="h-4 w-4" />
+                    AI Analysis
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleReprocess}
+                    disabled={isReprocessing}
+                  >
+                    {isReprocessing ? (
+                      <Loader2 className="mr-1 h-3 w-3 animate-spin" />
+                    ) : (
+                      <RefreshCw className="mr-1 h-3 w-3" />
+                    )}
+                    {isReprocessing ? 'Reprocessing...' : 'Reprocess'}
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent className="p-4 pt-0">
                 <p className="text-sm text-muted-foreground">
@@ -247,11 +291,44 @@ export function EmailViewer({ thread, onApprove, onReject, onReplySent }: EmailV
                 {thread.decision && (
                   <p className="mt-2 text-sm">
                     <strong>Decision:</strong> {thread.decision.decision}
+                    {thread.decision.decision === 'ESCALATE' && (
+                      <Badge variant="destructive" className="ml-2 text-xs">Escalated</Badge>
+                    )}
                     <br />
                     <span className="text-muted-foreground">
                       {thread.decision.reasoning}
                     </span>
                   </p>
+                )}
+                {reprocessResult && (
+                  <p className="mt-2 text-xs font-medium text-green-600 dark:text-green-400">
+                    ✓ {reprocessResult}
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Reprocess button when no AI analysis exists yet */}
+          {!thread.classification && (
+            <Card className="border-dashed">
+              <CardContent className="flex items-center justify-center gap-2 p-4">
+                <Button
+                  variant="outline"
+                  onClick={handleReprocess}
+                  disabled={isReprocessing}
+                >
+                  {isReprocessing ? (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                  )}
+                  {isReprocessing ? 'Processing...' : 'Run AI Analysis'}
+                </Button>
+                {reprocessResult && (
+                  <span className="text-sm font-medium text-green-600">
+                    ✓ {reprocessResult}
+                  </span>
                 )}
               </CardContent>
             </Card>

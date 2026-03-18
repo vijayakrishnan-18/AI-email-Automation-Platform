@@ -208,6 +208,7 @@ export interface UserSettings {
   auto_reply_enabled: boolean;
   require_approval_above_confidence: number;
   default_tone: string;
+  default_from_name: string | null;
   signature: string | null;
   working_hours_enabled: boolean;
   working_hours_start: string;

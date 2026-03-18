@@ -149,12 +149,6 @@ export async function GET(request: NextRequest) {
     // Get related data separately for threads that exist
     const threadIds = threads.map(t => t.id);
 
-    // Fetch classifications
-    const { data: classifications } = await supabase
-      .from('ai_classifications')
-      .select('*')
-      .in('thread_id', threadIds);
-
     // Fetch latest emails
     const { data: emails } = await supabase
       .from('emails')
@@ -162,14 +156,28 @@ export async function GET(request: NextRequest) {
       .in('thread_id', threadIds)
       .order('internal_date', { ascending: false });
 
-    // Create lookup maps
-    const classificationMap = new Map();
-    classifications?.forEach(c => {
-      if (!classificationMap.has(c.thread_id)) {
-        classificationMap.set(c.thread_id, c);
-      }
-    });
+    const emailIds = emails?.map(e => e.id) || [];
 
+    // Fetch classifications
+    const { data: classifications } = await supabase
+      .from('ai_classifications')
+      .select('*')
+      .in('email_id', emailIds);
+
+    // Fetch decisions
+    const { data: decisions } = await supabase
+      .from('ai_decisions')
+      .select('thread_id, decision, confidence')
+      .in('thread_id', threadIds);
+
+    // Fetch approvals
+    const { data: approvals } = await supabase
+      .from('approval_queue')
+      .select('thread_id, status')
+      .in('thread_id', threadIds)
+      .eq('status', 'pending');
+
+    // Create lookup maps
     const emailMap = new Map();
     emails?.forEach(e => {
       if (!emailMap.has(e.thread_id)) {
@@ -177,21 +185,45 @@ export async function GET(request: NextRequest) {
       }
     });
 
+    const classificationMap = new Map();
+    classifications?.forEach(c => {
+      classificationMap.set(c.email_id, c);
+    });
+
+    const decisionMap = new Map();
+    decisions?.forEach(d => {
+      if (!decisionMap.has(d.thread_id)) {
+        decisionMap.set(d.thread_id, d);
+      }
+    });
+
+    const approvalMap = new Map();
+    approvals?.forEach(a => {
+      if (!approvalMap.has(a.thread_id)) {
+        approvalMap.set(a.thread_id, a);
+      }
+    });
+
     // Transform response
-    const transformedThreads = threads.map((thread) => ({
-      id: thread.id,
-      gmail_thread_id: thread.gmail_thread_id,
-      subject: thread.subject,
-      snippet: thread.snippet,
-      last_message_at: thread.last_message_at,
-      message_count: thread.message_count,
-      is_unread: thread.is_unread,
-      status: thread.status,
-      labels: thread.labels,
-      participants: thread.participants,
-      latest_email: emailMap.get(thread.id) || null,
-      classification: classificationMap.get(thread.id) || null,
-    }));
+    const transformedThreads = threads.map((thread) => {
+      const latestEmail = emailMap.get(thread.id);
+      return {
+        id: thread.id,
+        gmail_thread_id: thread.gmail_thread_id,
+        subject: thread.subject,
+        snippet: thread.snippet,
+        last_message_at: thread.last_message_at,
+        message_count: thread.message_count,
+        is_unread: thread.is_unread,
+        status: thread.status,
+        labels: thread.labels,
+        participants: thread.participants,
+        latest_email: latestEmail || null,
+        classification: latestEmail ? classificationMap.get(latestEmail.id) || null : null,
+        decision: decisionMap.get(thread.id) || null,
+        approval: approvalMap.get(thread.id) || null,
+      };
+    });
 
     return successResponse({
       threads: transformedThreads,

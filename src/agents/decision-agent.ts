@@ -278,6 +278,12 @@ function evaluateConditions(
 
     switch (condition.operator) {
       case 'equals':
+        // Special case: urgency 'equals high' should also match 'critical'
+        // because critical is a higher severity than high
+        if (condition.field === 'urgency' && String(condition.value).toLowerCase() === 'high') {
+          const urgency = String(fieldValue).toLowerCase();
+          return urgency === 'high' || urgency === 'critical';
+        }
         return String(fieldValue).toLowerCase() === String(condition.value).toLowerCase();
       case 'contains':
         return String(fieldValue).toLowerCase().includes(String(condition.value).toLowerCase());

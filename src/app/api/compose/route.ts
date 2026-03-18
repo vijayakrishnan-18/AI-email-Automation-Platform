@@ -37,7 +37,7 @@ export async function POST(request: NextRequest) {
     // Get user settings for sender name
     const { data: settings } = await supabase
       .from('user_settings')
-      .select('signature, default_tone')
+      .select('signature, default_tone, default_from_name')
       .eq('user_id', user.id)
       .single();
 
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     try {
       const { result, tokensUsed } = await composeEmail({
         instructions,
-        senderName: user.user_metadata?.full_name || user.email?.split('@')[0],
+        senderName: settings?.default_from_name || user.user_metadata?.full_name || user.email?.split('@')[0],
         senderEmail: emailAccount?.email_address,
       });
 
