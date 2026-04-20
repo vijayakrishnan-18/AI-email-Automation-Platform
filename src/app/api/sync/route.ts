@@ -7,7 +7,7 @@ import {
   checkRateLimit,
 } from '@/lib/api-utils';
 import { createServerSupabaseClient, createServiceRoleClient } from '@/lib/supabase/server';
-import { GmailClient, parseGmailThread, parseGmailMessage } from '@/lib/gmail/client';
+import { GmailClient, parseGmailThread, parseGmailMessage, OAuthTokenRevokedError } from '@/lib/gmail/client';
 import { processIncomingEmail } from '@/agents/pipeline';
 
 export async function POST(request: NextRequest) {
@@ -205,12 +205,29 @@ export async function POST(request: NextRequest) {
           success: true,
         });
       } catch (err) {
-        console.error(`Sync error for ${account.email_address}:`, err);
-        syncResults.push({
-          account: account.email_address,
-          error: err instanceof Error ? err.message : 'Sync failed',
-          success: false,
-        });
+        if (err instanceof OAuthTokenRevokedError) {
+          // Token was revoked or expired — mark account as inactive so the UI
+          // can prompt the user to re-connect their Gmail account.
+          await serviceClient
+            .from('email_accounts')
+            .update({ is_active: false })
+            .eq('id', account.id);
+
+          console.warn(`OAuth token revoked for ${account.email_address}. Marked account as inactive.`);
+          syncResults.push({
+            account: account.email_address,
+            error: 'token_revoked',
+            message: 'Your Gmail connection has expired. Please reconnect your account.',
+            success: false,
+          });
+        } else {
+          console.error(`Sync error for ${account.email_address}:`, err);
+          syncResults.push({
+            account: account.email_address,
+            error: err instanceof Error ? err.message : 'Sync failed',
+            success: false,
+          });
+        }
       }
     }
 

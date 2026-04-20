@@ -2,6 +2,18 @@ import { google } from 'googleapis';
 import { encrypt, decrypt } from '@/lib/encryption';
 import type { GmailTokens } from '@/types';
 
+/** Thrown when the stored refresh token has been revoked or expired by Google. */
+export class OAuthTokenRevokedError extends Error {
+  constructor(email?: string) {
+    super(
+      email
+        ? `Google OAuth token for ${email} has been revoked or expired. The user must re-connect their account.`
+        : 'Google OAuth token has been revoked or expired. The user must re-connect their account.'
+    );
+    this.name = 'OAuthTokenRevokedError';
+  }
+}
+
 const SCOPES = [
   'https://www.googleapis.com/auth/gmail.readonly',
   'https://www.googleapis.com/auth/gmail.send',
@@ -46,23 +58,32 @@ export async function exchangeCodeForTokens(code: string): Promise<GmailTokens> 
   };
 }
 
-export async function refreshAccessToken(refreshToken: string): Promise<GmailTokens> {
+export async function refreshAccessToken(refreshToken: string, email?: string): Promise<GmailTokens> {
   const client = createOAuth2Client();
   client.setCredentials({ refresh_token: refreshToken });
 
-  const { credentials } = await client.refreshAccessToken();
+  try {
+    const { credentials } = await client.refreshAccessToken();
 
-  if (!credentials.access_token) {
-    throw new Error('Failed to refresh access token');
+    if (!credentials.access_token) {
+      throw new Error('Failed to refresh access token');
+    }
+
+    return {
+      access_token: credentials.access_token,
+      refresh_token: refreshToken,
+      expiry_date: credentials.expiry_date || Date.now() + 3600 * 1000,
+      scope: credentials.scope || SCOPES.join(' '),
+      token_type: credentials.token_type || 'Bearer',
+    };
+  } catch (err: unknown) {
+    // Google returns invalid_grant when the refresh token is revoked or expired
+    const message = err instanceof Error ? err.message : String(err);
+    if (message.includes('invalid_grant') || message.includes('Token has been expired or revoked')) {
+      throw new OAuthTokenRevokedError(email);
+    }
+    throw err;
   }
-
-  return {
-    access_token: credentials.access_token,
-    refresh_token: refreshToken,
-    expiry_date: credentials.expiry_date || Date.now() + 3600 * 1000,
-    scope: credentials.scope || SCOPES.join(' '),
-    token_type: credentials.token_type || 'Bearer',
-  };
 }
 
 export async function getUserInfo(accessToken: string) {

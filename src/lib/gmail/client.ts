@@ -1,5 +1,6 @@
 import { google, gmail_v1 } from 'googleapis';
-import { createOAuth2Client, refreshAccessToken, decryptTokens, encryptTokens } from './oauth';
+import { createOAuth2Client, refreshAccessToken, decryptTokens, encryptTokens, OAuthTokenRevokedError } from './oauth';
+export { OAuthTokenRevokedError };
 import { createServiceRoleClient } from '@/lib/supabase/server';
 import type { Email, EmailThread, EmailParticipant, EmailAttachment } from '@/types';
 

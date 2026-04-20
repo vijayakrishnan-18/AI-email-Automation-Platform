@@ -1,4 +1,4 @@
-import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/openai/client';
+import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/groq/client';
 import { z } from 'zod';
 
 const ComposeSchema = z.object({
@@ -99,8 +99,8 @@ Generate a complete, professional email ready to send.`;
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isQuotaError = errorMessage.includes('insufficient_quota') ||
-                         errorMessage.includes('rate_limit') ||
-                         errorMessage.includes('429');
+      errorMessage.includes('rate_limit') ||
+      errorMessage.includes('429');
 
     if (isQuotaError) {
       throw new Error(`Groq API quota exceeded: ${errorMessage}`);

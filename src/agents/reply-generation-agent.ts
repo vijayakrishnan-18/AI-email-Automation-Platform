@@ -1,4 +1,4 @@
-import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/openai/client';
+import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/groq/client';
 import type { ThreadContext } from './context-builder-agent';
 import type { DraftGenerationResult } from '@/types';
 import { z } from 'zod';
@@ -103,8 +103,8 @@ Generate a professional reply that addresses all the key requests. If a "REPLY A
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isQuotaError = errorMessage.includes('insufficient_quota') ||
-                         errorMessage.includes('rate_limit') ||
-                         errorMessage.includes('429');
+      errorMessage.includes('rate_limit') ||
+      errorMessage.includes('429');
 
     if (isQuotaError) {
       throw new Error(`Groq API quota exceeded: ${errorMessage}`);
@@ -219,8 +219,8 @@ Generate an improved reply that addresses the feedback while maintaining profess
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isQuotaError = errorMessage.includes('insufficient_quota') ||
-                         errorMessage.includes('rate_limit') ||
-                         errorMessage.includes('429');
+      errorMessage.includes('rate_limit') ||
+      errorMessage.includes('429');
 
     if (isQuotaError) {
       throw new Error(`Groq API quota exceeded: ${errorMessage}`);

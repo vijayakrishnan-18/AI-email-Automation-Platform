@@ -1,4 +1,4 @@
-import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/openai/client';
+import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/groq/client';
 import type { Email, AIClassification } from '@/types';
 
 const CONTEXT_BUILDER_SYSTEM_PROMPT = `You are a context summarization agent for an email management system.
@@ -121,8 +121,8 @@ Provide the context summary in this exact JSON format:
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isQuotaError = errorMessage.includes('insufficient_quota') ||
-                         errorMessage.includes('rate_limit') ||
-                         errorMessage.includes('429');
+      errorMessage.includes('rate_limit') ||
+      errorMessage.includes('429');
 
     if (isQuotaError) {
       throw new Error(`Groq API quota exceeded: ${errorMessage}`);

@@ -1,4 +1,4 @@
-import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/openai/client';
+import { createChatCompletion, AI_MODELS, TEMPERATURES } from '@/lib/groq/client';
 import type { ClassificationResult, EmailCategory, Urgency } from '@/types';
 import { z } from 'zod';
 
@@ -105,8 +105,8 @@ ${input.threadContext ? `THREAD CONTEXT:\n${input.threadContext}` : ''}`;
   } catch (error: unknown) {
     const errorMessage = error instanceof Error ? error.message : String(error);
     const isQuotaError = errorMessage.includes('insufficient_quota') ||
-                         errorMessage.includes('rate_limit') ||
-                         errorMessage.includes('429');
+      errorMessage.includes('rate_limit') ||
+      errorMessage.includes('429');
 
     if (isQuotaError) {
       // Re-throw quota errors so they can be handled at a higher level
